@@ -1,0 +1,7 @@
+[Bb]in/.*
+_ReSharper.*
+[Oo]bj/
+.*\.user
+.*\.suo
+*.sln.cache
+packages/*
