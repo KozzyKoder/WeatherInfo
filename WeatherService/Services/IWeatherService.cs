@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RestSharp;
 
 namespace WeatherService.Services
@@ -14,9 +15,16 @@ namespace WeatherService.Services
         
         public Dictionary<string, string> GetWeatherInfo(string cityName)
         {
-            var content = ProcessRequest(cityName);
-
-            var parsedContent = ParseResponseContent(content, cityName);
+            Dictionary<string, string> parsedContent;
+            try
+            {
+                string content = ProcessRequest(cityName);
+                parsedContent = ParseResponseContent(content, cityName);
+            }
+            catch (Exception)
+            {
+                parsedContent = new Dictionary<string, string>();
+            }
 
             return parsedContent;
         }
