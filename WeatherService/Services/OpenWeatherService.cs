@@ -40,8 +40,11 @@ namespace WeatherService.Services
             var weatherInfo = JsonConvert.DeserializeObject<JObject>(weatherArray.First().ToString());
             
             parsedValues["Description"] = weatherInfo["description"].ToString();
+
             parsedValues["WindSpeedMs"] = windData["speed"].ToString();
+
             parsedValues["Country"] = systemData["country"].ToString();
+
             parsedValues["Latitude"] = coordData["lat"].ToString();
             parsedValues["Longitude"] = coordData["lon"].ToString();
 

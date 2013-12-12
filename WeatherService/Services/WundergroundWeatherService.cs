@@ -33,17 +33,18 @@ namespace WeatherService.Services
             var deserializedContent = JsonConvert.DeserializeObject<JObject>(content);
 
             var currentObservation = JsonConvert.DeserializeObject<JObject>(deserializedContent["current_observation"].ToString());
-            var displayLocation = JsonConvert.DeserializeObject<JObject>(currentObservation["display_location"].ToString());
             var observationLocation = JsonConvert.DeserializeObject<JObject>(currentObservation["observation_location"].ToString());
 
             parsedValues["TemperatureCelcius"] = currentObservation["temp_c"].ToString();
-            parsedValues["Elevation"] = observationLocation["elevation"].ToString();
             parsedValues["RelativeHumidity"] = currentObservation["relative_humidity"].ToString();
             parsedValues["PressureMb"] = currentObservation["pressure_mb"].ToString();
             parsedValues["VisibilityDistance"] = currentObservation["visibility_km"].ToString();
             parsedValues["WindSpeedKph"] = currentObservation["wind_kph"].ToString();
             parsedValues["WindAngle"] = currentObservation["wind_degrees"].ToString();
             parsedValues["WindDirection"] = currentObservation["wind_dir"].ToString();
+
+            parsedValues["Elevation"] = observationLocation["elevation"].ToString();
+            
             parsedValues["CityName"] = cityName;
 
             return parsedValues;
