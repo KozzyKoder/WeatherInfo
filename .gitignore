@@ -1,7 +1,30 @@
-[Bb]in/.*
-_ReSharper.*
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.ncb
+*.suo
+*.lib
+ipch/
 [Oo]bj/
-.*\.user
-.*\.suo
-*.sln.cache
-packages/*
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+
+#MonoDevelop
+*.pidb
+*.userprefs
+
+#Tooling
+_ReSharper*/
+*.resharper
+
+#Project files
+[Bb]uild/
+
+#NuGet
+packages/
+*.nupkg
