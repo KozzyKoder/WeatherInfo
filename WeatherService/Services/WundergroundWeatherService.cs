@@ -32,8 +32,8 @@ namespace WeatherService.Services
             
             var deserializedContent = JsonConvert.DeserializeObject<JObject>(content);
 
-            var currentObservation = JsonConvert.DeserializeObject<JObject>(deserializedContent["current_observation"].ToString());
-            var observationLocation = JsonConvert.DeserializeObject<JObject>(currentObservation["observation_location"].ToString());
+            var currentObservation = deserializedContent["current_observation"];
+            var observationLocation = currentObservation["observation_location"];
 
             parsedValues["TemperatureCelcius"] = currentObservation["temp_c"].ToString();
             parsedValues["RelativeHumidity"] = currentObservation["relative_humidity"].ToString();

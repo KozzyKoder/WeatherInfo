@@ -33,11 +33,11 @@ namespace WeatherService.Services
             
             var deserializedContent = JsonConvert.DeserializeObject<JObject>(content);
 
-            var coordData = JsonConvert.DeserializeObject<JObject>(deserializedContent["coord"].ToString());
-            var systemData = JsonConvert.DeserializeObject<JObject>(deserializedContent["sys"].ToString());
-            var windData = JsonConvert.DeserializeObject<JObject>(deserializedContent["wind"].ToString());
-            var weatherArray = JsonConvert.DeserializeObject<JArray>(deserializedContent["weather"].ToString());
-            var weatherInfo = JsonConvert.DeserializeObject<JObject>(weatherArray.First().ToString());
+            var coordData = deserializedContent["coord"];
+            var systemData = deserializedContent["sys"];
+            var windData = deserializedContent["wind"];
+            var weatherArray = deserializedContent["weather"];
+            var weatherInfo = weatherArray.First();
             
             parsedValues["Description"] = weatherInfo["description"].ToString();
 
