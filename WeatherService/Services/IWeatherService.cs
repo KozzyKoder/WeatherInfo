@@ -10,6 +10,8 @@ namespace WeatherService.Services
 
     public abstract class WeatherService : IWeatherService
     {
+        protected RestClient _restClient;
+        
         public Dictionary<string, string> GetWeatherInfo(string cityName)
         {
             var content = ProcessRequest(cityName);

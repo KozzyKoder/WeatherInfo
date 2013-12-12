@@ -16,12 +16,18 @@
 
         public string WindDirection { get; set; }
 
-        public string WindSpeed { get; set; }
+        public string WindSpeedKph { get; set; }
 
         public string WindAngle { get; set; }
 
         public string RelativeHumidity { get; set; }
 
         public string VisibilityDistance { get; set; }
+
+        public string WindSpeedMs { get; set; }
+
+        public string Description { get; set; }
+
+        public string Country { get; set; }
     }
 }

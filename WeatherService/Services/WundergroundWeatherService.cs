@@ -8,8 +8,6 @@ namespace WeatherService.Services
 {
     public class WundergroundWeatherService : WeatherService
     {
-        private readonly RestClient _restClient;
-
         public WundergroundWeatherService()
         {
             _restClient = new RestClient("http://api.wunderground.com");
@@ -38,18 +36,12 @@ namespace WeatherService.Services
             var displayLocation = JsonConvert.DeserializeObject<JObject>(currentObservation["display_location"].ToString());
             var observationLocation = JsonConvert.DeserializeObject<JObject>(currentObservation["observation_location"].ToString());
 
-            Console.WriteLine(currentObservation);
-            Console.WriteLine(displayLocation);
-            Console.WriteLine(observationLocation);
-
             parsedValues["TemperatureCelcius"] = currentObservation["temp_c"].ToString();
             parsedValues["Elevation"] = observationLocation["elevation"].ToString();
-            parsedValues["Longitude"] = observationLocation["longitude"].ToString();
-            parsedValues["Latitude"] = observationLocation["latitude"].ToString();
             parsedValues["RelativeHumidity"] = currentObservation["relative_humidity"].ToString();
             parsedValues["PressureMb"] = currentObservation["pressure_mb"].ToString();
             parsedValues["VisibilityDistance"] = currentObservation["visibility_km"].ToString();
-            parsedValues["WindSpeed"] = currentObservation["wind_kph"].ToString();
+            parsedValues["WindSpeedKph"] = currentObservation["wind_kph"].ToString();
             parsedValues["WindAngle"] = currentObservation["wind_degrees"].ToString();
             parsedValues["WindDirection"] = currentObservation["wind_dir"].ToString();
             parsedValues["CityName"] = cityName;

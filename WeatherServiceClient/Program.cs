@@ -17,7 +17,7 @@ namespace WeatherServiceClient
     {
         static void Main(string[] args)
         {
-            var service = new WundergroundWeatherService();
+            var service = new OpenWeatherService();
 
             var info = service.GetWeatherInfo("Chelyabinsk");
 
@@ -30,6 +30,8 @@ namespace WeatherServiceClient
                 });
 
             var model = Mapper.Map<Dictionary<string, string>, WeatherInfoModel>(info);
+
+            Console.ReadKey();
         }
     }
 }
