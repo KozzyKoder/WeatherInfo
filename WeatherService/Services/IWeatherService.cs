@@ -4,33 +4,25 @@ using RestSharp;
 
 namespace WeatherService.Services
 {
-    public interface IWeatherService
+    public interface IWeatherService<out T> where T :class, new()
     {
-        Dictionary<string, string> GetWeatherInfo(string cityName);
+        T GetWeatherInfo(string cityName);
     }
 
-    public abstract class WeatherService : IWeatherService
+    public abstract class WeatherService<T> : IWeatherService<T> where T : class, new()
     {
-        protected RestClient _restClient;
+        protected RestClient RestClient;
+        protected string RequestedUrl;
         
-        public Dictionary<string, string> GetWeatherInfo(string cityName)
+        public T GetWeatherInfo(string cityName)
         {
-            Dictionary<string, string> parsedContent;
-            try
-            {
-                string content = ProcessRequest(cityName);
-                parsedContent = ParseResponseContent(content, cityName);
-            }
-            catch (Exception)
-            {
-                parsedContent = new Dictionary<string, string>();
-            }
+            var requestString = String.Format(RequestedUrl, cityName);
 
-            return parsedContent;
+            var request = new RestRequest(requestString, Method.GET);
+
+            var response = RestClient.Execute<T>(request);
+
+            return response.Data;
         }
-
-        protected abstract string ProcessRequest(string cityName);
-
-        protected abstract Dictionary<string, string> ParseResponseContent(string content, string cityName);
     }
 }
