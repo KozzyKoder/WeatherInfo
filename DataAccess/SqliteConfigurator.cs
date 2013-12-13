@@ -46,7 +46,7 @@ namespace DataAccess
             se.Execute(false, true, false, connection, null);
         }
 
-        public static void CreateDatabase(string databasePath)
+        private static void CreateDatabase(string databasePath)
         {
             if (_configuration == null)
             {

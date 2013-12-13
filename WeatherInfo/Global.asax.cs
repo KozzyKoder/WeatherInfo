@@ -24,19 +24,17 @@ namespace WeatherInfo
         {
             XmlConfigurator.Configure();
 
-            AreaRegistration.RegisterAllAreas();
-
             var databasePath = ConfigurationManager.AppSettings["DatabasePath"];
             var databaseFullPath = Server.MapPath(databasePath);
             NhibernateConfig.Setup(databaseFullPath);
 
             Ioc.Container.Install(new WeatherServiceInstaller(), new DataAccessInstaller());
 
+            AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
         }
     }
 }
