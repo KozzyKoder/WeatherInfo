@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Common;
 using DataAccess.Repository;
+using log4net;
 using WeatherInfo.Models;
 using WeatherService.ServiceAggregator;
 
@@ -12,6 +14,8 @@ namespace WeatherInfo.Controllers
 {
     public class HomeController : ControllerBase
     {
+        protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         public ActionResult Index()
         {
             var cityRepository = Ioc.Resolve<IRepository<DataAccess.Entities.WeatherInfo>>();

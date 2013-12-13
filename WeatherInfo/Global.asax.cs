@@ -10,6 +10,7 @@ using System.Web.Routing;
 using Common;
 using DataAccess;
 using DataAccess.Repository;
+using log4net.Config;
 using WeatherService;
 
 namespace WeatherInfo
@@ -21,6 +22,8 @@ namespace WeatherInfo
     {
         protected void Application_Start()
         {
+            XmlConfigurator.Configure();
+
             AreaRegistration.RegisterAllAreas();
 
             var databasePath = ConfigurationManager.AppSettings["DatabasePath"];
