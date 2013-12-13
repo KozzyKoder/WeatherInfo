@@ -28,3 +28,5 @@ _ReSharper*/
 #NuGet
 packages/
 *.nupkg
+*.sqlite3
+*.txt

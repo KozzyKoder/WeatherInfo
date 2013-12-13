@@ -10,8 +10,8 @@ namespace DataAccess
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For(typeof(IRepository<WeatherInfo>))
-                                        .ImplementedBy<Repository<WeatherInfo>>()
+            container.Register(Component.For(typeof(IRepository<>))
+                                        .ImplementedBy(typeof(Repository<>))
                                         .LifestyleSingleton());
         }
     }

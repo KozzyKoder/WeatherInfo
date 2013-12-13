@@ -19,12 +19,12 @@ namespace DataAccess
             _configuration.SetProperty("connection.connection_string", connectionString);
             _configuration.AddAssembly(typeof(DataAccess.Entities.WeatherInfo).Assembly);
 
-            _sesionFactory = _configuration.BuildSessionFactory();
-
             if (!File.Exists(databasePath))
             {
                 CreateDatabase(databasePath);
             }
+
+            _sesionFactory = _configuration.BuildSessionFactory();
         }
 
         public static ISessionFactory GetSessionFactory()

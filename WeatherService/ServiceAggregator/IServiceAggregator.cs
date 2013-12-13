@@ -41,7 +41,7 @@ namespace WeatherService.ServiceAggregator
                 Logger.Error("Error while working with Open Weather Service", e);
             }
             try
-            {
+            { 
                 var wundergroundServiceModel = wundergroundService.GetWeatherInfo(cityName);
                 weatherInfo.MapFromWundergroundServiceModel(wundergroundServiceModel);
             }
