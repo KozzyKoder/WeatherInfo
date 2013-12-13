@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeatherService.ServiceModels
 {
-    public class WundergroundServiceModel
+    public class WundergroundServiceModel : ServiceModel
     {
         public WundergroundObservation CurrentObservation { get; set; }
     }

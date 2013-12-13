@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeatherService.ServiceModels
 {
-    public class OpenWeatherServiceModel
+    public class OpenWeatherServiceModel : ServiceModel
     {
         public OpenWeatherCoordinates Coord { get; set; }
         public OpenWeatherSystem Sys { get; set; }

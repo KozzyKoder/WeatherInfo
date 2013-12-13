@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using Common;
 using DataAccess.Entities;
 using log4net;
-using WeatherService.Extensions;
+using RestSharp.Extensions;
+using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
 using WeatherService.Services;
 
@@ -26,30 +27,20 @@ namespace WeatherService.ServiceAggregator
         
         public WeatherInfo AggregateWeatherInfo(string cityName)
         {
-            var openWeatherService = Ioc.Resolve<IWeatherService<OpenWeatherServiceModel>>();
-            var wundergroundService = Ioc.Resolve<IWeatherService<WundergroundServiceModel>>();
-            
             var weatherInfo = new WeatherInfo();
-            
-            try
+            var services = Ioc.Container.ResolveAll(typeof (IService<WeatherInfo>));
+            foreach (IService<WeatherInfo> service in services)
             {
-                var openWeatherServiceModel = openWeatherService.GetWeatherInfo(cityName);
-                weatherInfo.MapFromOpenWeatherServiceModel(openWeatherServiceModel);
+                try
+                {
+                    service.GetWeatherInfo(cityName, weatherInfo);
+                }
+                catch (IOException e)
+                {
+                    Logger.Error("Error while working with Service", e);
+                }
             }
-            catch (IOException e)
-            {
-                Logger.Error("Error while working with Open Weather Service", e);
-            }
-            try
-            { 
-                var wundergroundServiceModel = wundergroundService.GetWeatherInfo(cityName);
-                weatherInfo.MapFromWundergroundServiceModel(wundergroundServiceModel);
-            }
-            catch (IOException e)
-            {
-                Logger.Error("Error while working with Wunderground Service", e);
-            }
-            
+
             weatherInfo.CityName = cityName;
             weatherInfo.LastUpdated = DateTime.UtcNow;
 

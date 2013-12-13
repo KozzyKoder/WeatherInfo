@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using DataAccess.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel>
+    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, WundergroundServiceModelMapper, WeatherInfo>
     {
         public WundergroundWeatherService()
         {

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataAccess.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel>
+    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, OpenWeatherServiceModelMapper, WeatherInfo>
     {
         public OpenWeatherService()
         {
