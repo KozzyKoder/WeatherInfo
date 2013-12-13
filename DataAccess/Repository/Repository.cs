@@ -6,15 +6,31 @@ using NHibernate.Linq;
 
 namespace DataAccess.Repository
 {
-    public abstract class Repository<T> : IRepository<T> where T : Entity
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         protected ISessionFactory Factory;
-        
+
+        public Repository()
+        {
+            Factory = SqliteConfigurator.GetSessionFactory();
+        }
+
         public T Get(Guid id)
         {
             var session = Factory.OpenSession();
 
             var entity = session.Query<T>().FirstOrDefault(p => p.Id == id);
+
+            session.Close();
+
+            return entity;
+        }
+
+        public T Get(Func<T, bool> predicate)
+        {
+            var session = Factory.OpenSession();
+
+            var entity = session.Query<T>().FirstOrDefault(predicate);
 
             session.Close();
 

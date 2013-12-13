@@ -7,8 +7,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Common;
 using DataAccess;
 using DataAccess.Repository;
+using WeatherService;
 
 namespace WeatherInfo
 {
@@ -23,8 +25,9 @@ namespace WeatherInfo
 
             var databasePath = ConfigurationManager.AppSettings["DatabasePath"];
             var databaseFullPath = Server.MapPath(databasePath);
-
             NhibernateConfig.Setup(databaseFullPath);
+
+            Ioc.Container.Install(new WeatherServiceInstaller(), new DataAccessInstaller());
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
