@@ -3,14 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Common;
+using DataAccess.Repository;
+using WeatherService.ServiceAggregator;
 
 namespace WeatherInfo.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            var cityRepository = Ioc.Resolve<IRepository<DataAccess.Entities.WeatherInfo>>();
+
+            var cities = GetCitiesList();
+
+            var weatherInfos = new List<DataAccess.Entities.WeatherInfo>();
+            foreach (var city in cities)
+            {
+                var weatherInfo = cityRepository.Get(p => p.CityName == city);
+                if (weatherInfo == null || (weatherInfo.LastUpdated - DateTime.UtcNow) > TimeSpan.FromHours(4))
+                {
+                    var aggregator = Ioc.Resolve<IServiceAggregator>();
+                    var grabbedWeatherInfo = aggregator.AggregateWeatherInfo(city);
+                    if (weatherInfo != null)
+                    {
+                        grabbedWeatherInfo.Id = weatherInfo.Id;
+                        cityRepository.Update(grabbedWeatherInfo);
+                    }
+                    else
+                    {
+                        cityRepository.Save(grabbedWeatherInfo);
+                        
+                    }
+                    weatherInfos.Add(grabbedWeatherInfo);
+                }
+                else
+                {
+                    weatherInfos.Add(weatherInfo);
+                }
+            }
 
             return View();
         }

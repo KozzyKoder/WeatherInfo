@@ -35,5 +35,7 @@ namespace DataAccess.Entities
         public virtual string Description { get; set; }
 
         public virtual string Country { get; set; }
+
+        public virtual DateTime LastUpdated { get; set; }
     }
 }

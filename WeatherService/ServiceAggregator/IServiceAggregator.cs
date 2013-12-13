@@ -32,6 +32,7 @@ namespace WeatherService.ServiceAggregator
             weatherInfo.MapFromWundergroundServiceModel(wundergroundServiceModel);
             
             weatherInfo.CityName = cityName;
+            weatherInfo.LastUpdated = DateTime.UtcNow;
 
             return weatherInfo;
         }
