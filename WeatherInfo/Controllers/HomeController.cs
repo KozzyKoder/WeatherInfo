@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Common;
 using DataAccess.Repository;
+using WeatherInfo.Models;
 using WeatherService.ServiceAggregator;
 
 namespace WeatherInfo.Controllers
@@ -43,7 +44,12 @@ namespace WeatherInfo.Controllers
                 }
             }
 
-            return View();
+            var model = new WeatherViewModel()
+            {
+                WeatherInfos = weatherInfos
+            };
+
+            return View(model);
         }
 
         public ActionResult About()

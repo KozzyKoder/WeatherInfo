@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -23,13 +24,26 @@ namespace WeatherService.ServiceAggregator
         {
             var openWeatherService = Ioc.Resolve<IWeatherService<OpenWeatherServiceModel>>();
             var wundergroundService = Ioc.Resolve<IWeatherService<WundergroundServiceModel>>();
-
-            var openWeatherServiceModel = openWeatherService.GetWeatherInfo(cityName);
-            var wundergroundServiceModel = wundergroundService.GetWeatherInfo(cityName);
-
+            
             var weatherInfo = new WeatherInfo();
-            weatherInfo.MapFromOpenWeatherServiceModel(openWeatherServiceModel);
-            weatherInfo.MapFromWundergroundServiceModel(wundergroundServiceModel);
+            
+            try
+            {
+                var openWeatherServiceModel = openWeatherService.GetWeatherInfo(cityName);
+                weatherInfo.MapFromOpenWeatherServiceModel(openWeatherServiceModel);
+            }
+            catch (IOException e)
+            {
+            }
+
+            try
+            {
+                var wundergroundServiceModel = wundergroundService.GetWeatherInfo(cityName);
+                weatherInfo.MapFromWundergroundServiceModel(wundergroundServiceModel);
+            }
+            catch (Exception)
+            {
+            }
             
             weatherInfo.CityName = cityName;
             weatherInfo.LastUpdated = DateTime.UtcNow;
