@@ -22,7 +22,7 @@ namespace WeatherService.ServiceAggregator
         public WeatherInfo AggregateWeatherInfo(string cityName)
         {
             var openWeatherService = Ioc.Resolve<IWeatherService<OpenWeatherServiceModel>>();
-            var wundergroundService = Ioc.Container.Resolve<IWeatherService<WundergroundServiceModel>>();
+            var wundergroundService = Ioc.Resolve<IWeatherService<WundergroundServiceModel>>();
 
             var openWeatherServiceModel = openWeatherService.GetWeatherInfo(cityName);
             var wundergroundServiceModel = wundergroundService.GetWeatherInfo(cityName);
