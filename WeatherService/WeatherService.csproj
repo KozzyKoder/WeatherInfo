@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAggregator\IServiceAggregator.cs" />
+    <Compile Include="ServiceAggregator\ServiceAggregator.cs" />
     <Compile Include="ServiceModelMappers\OpenWeatherServiceModelMapper.cs" />
     <Compile Include="ServiceModelMappers\IServiceModelMapper.cs" />
     <Compile Include="ServiceModels\IServiceModel.cs" />
