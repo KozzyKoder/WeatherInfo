@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using DataAccess;
+using DataAccess.Repository;
 
 namespace WeatherInfo
 {
@@ -17,6 +20,11 @@ namespace WeatherInfo
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+            var databasePath = ConfigurationManager.AppSettings["DatabasePath"];
+            var databaseFullPath = Server.MapPath(databasePath);
+
+            NhibernateConfig.Setup(databaseFullPath);
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

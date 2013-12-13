@@ -6,34 +6,34 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Entities
 {
-    public class WeatherInfo
+    public class WeatherInfo : Entity
     {
-        public string CityName { get; set; }
+        public virtual string CityName { get; set; }
 
-        public Double TemperatureCelcius { get; set; }
+        public virtual Double TemperatureCelcius { get; set; }
 
-        public string Elevation { get; set; }
+        public virtual string Elevation { get; set; }
 
-        public int PressureMb { get; set; }
+        public virtual int PressureMb { get; set; }
 
-        public Double Longitude { get; set; }
+        public virtual Double Longitude { get; set; }
 
-        public Double Latitude { get; set; }
+        public virtual Double Latitude { get; set; }
 
-        public string WindDirection { get; set; }
+        public virtual string WindDirection { get; set; }
 
-        public Double WindSpeedKph { get; set; }
+        public virtual Double WindSpeedKph { get; set; }
 
-        public int WindAngle { get; set; }
+        public virtual int WindAngle { get; set; }
 
-        public string RelativeHumidity { get; set; }
+        public virtual string RelativeHumidity { get; set; }
 
-        public Double VisibilityDistance { get; set; }
+        public virtual Double VisibilityDistance { get; set; }
 
-        public Double WindSpeedMs { get; set; }
+        public virtual Double WindSpeedMs { get; set; }
 
-        public string Description { get; set; }
+        public virtual string Description { get; set; }
 
-        public string Country { get; set; }
+        public virtual string Country { get; set; }
     }
 }

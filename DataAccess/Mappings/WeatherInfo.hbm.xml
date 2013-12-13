@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                  assembly="DataAccess"
+                  namespace="DataAccess.Entities">
+
+  <class name="WeatherInfo" table="WeatherInfo">
+      <id name="Id">
+        <generator class="guid" />
+      </id>
+
+    <property name="CityName" />
+    <property name="TemperatureCelcius" />
+    <property name="Elevation" />
+    <property name="PressureMb" />
+    <property name="Longitude" />
+    <property name="Latitude" />
+    <property name="WindDirection" />
+    <property name="WindSpeedKph" />
+    <property name="WindAngle" />
+    <property name="RelativeHumidity" />
+    <property name="VisibilityDistance" />
+    <property name="WindSpeedMs" />
+    <property name="Description" />
+    <property name="Country" />
+  </class>
+
+</hibernate-mapping>
