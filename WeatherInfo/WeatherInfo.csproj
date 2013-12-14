@@ -308,6 +308,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+      <Project>{7ae29fa1-7e54-4bf2-991a-4cccbd3f313a}</Project>
+      <Name>BusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{fb145bac-805c-42b1-a7be-69ab62c0ff89}</Project>
       <Name>Common</Name>

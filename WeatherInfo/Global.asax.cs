@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BusinessLayer;
 using Common;
 using DataAccess;
 using DataAccess.Repository;
@@ -28,7 +29,9 @@ namespace WeatherInfo
             var databaseFullPath = Server.MapPath(databasePath);
             NhibernateConfig.Setup(databaseFullPath);
 
-            Ioc.Container.Install(new WeatherServiceInstaller(), new DataAccessInstaller());
+            Ioc.Container.Install(new WeatherServiceInstaller(),
+                                  new DataAccessInstaller(),
+                                  new BusinessLayerInstaller());
 
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);

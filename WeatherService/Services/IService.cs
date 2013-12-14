@@ -12,7 +12,6 @@ using WeatherService.ServiceModels;
 namespace WeatherService.Services
 {
     public interface IService<TEntity> where TEntity : Entity
-                                                          
     {
         TEntity GetWeatherInfo(string cityName, TEntity entity);
     }
