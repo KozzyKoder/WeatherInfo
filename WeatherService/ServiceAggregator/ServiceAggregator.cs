@@ -28,7 +28,11 @@ namespace WeatherService.ServiceAggregator
                 }
                 catch (IOException e)
                 {
-                    Logger.Error("Error while working with Service", e);
+                    Logger.Error("Data format not fit or network error", e);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Not Expected type of error", e);
                 }
             }
 
