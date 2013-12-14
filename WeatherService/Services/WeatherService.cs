@@ -13,15 +13,14 @@ using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public abstract class WeatherService<TModel, TMapper, TEntity> : IService<TEntity>
+    public abstract class WeatherService<TModel, TMapper> : IService<WeatherInfo>
         where TModel : ServiceModel, new()
-        where TMapper : IServiceModelMapper<TEntity, TModel>
-        where TEntity : Entity
+        where TMapper : IServiceModelMapper<WeatherInfo, TModel>
     {
         protected RestClient RestClient;
         protected string RequestedUrl;
 
-        public TEntity GetWeatherInfo(string cityName, TEntity entity)
+        public WeatherInfo GetWeatherInfo(string cityName, WeatherInfo entity)
         {
             var serviceModel = ProduceAndExecuteRequest(cityName);
 

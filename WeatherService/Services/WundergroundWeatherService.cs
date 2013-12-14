@@ -9,7 +9,7 @@ using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, WundergroundServiceModelMapper, WeatherInfo>
+    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, WundergroundServiceModelMapper>
     {
         public WundergroundWeatherService()
         {

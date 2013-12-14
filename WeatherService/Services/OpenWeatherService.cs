@@ -10,7 +10,7 @@ using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, OpenWeatherServiceModelMapper, WeatherInfo>
+    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, OpenWeatherServiceModelMapper>
     {
         public OpenWeatherService()
         {
