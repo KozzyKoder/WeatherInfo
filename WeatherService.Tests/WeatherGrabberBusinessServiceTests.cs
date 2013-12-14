@@ -20,7 +20,9 @@ namespace WeatherService.Tests
     {
         private Mock<IRepository<WeatherInfo>> _weatherInfoRepositoryMock;
         private Mock<IServiceAggregator> _serviceAggregatorMock;
+        private Mock<IDateTimeProvider> _dateTimeProviderMock;
         private string ChelyabinskCityName = "Chelyabinsk";
+        private DateTime _todayDate = new DateTime(2012, 10, 14, 12, 0, 0);
 
         public IWeatherGrabberBusinessService GetSut()
         {
@@ -32,6 +34,8 @@ namespace WeatherService.Tests
         {
             _weatherInfoRepositoryMock = new Mock<IRepository<WeatherInfo>>();
             _serviceAggregatorMock = new Mock<IServiceAggregator>();
+            _dateTimeProviderMock = new Mock<IDateTimeProvider>();
+            _dateTimeProviderMock.Setup(p => p.UtcNow()).Returns(_todayDate);
 
             Ioc.Container.Register(
                 Castle.MicroKernel.Registration.Component.For<IRepository<WeatherInfo>>()
@@ -42,6 +46,11 @@ namespace WeatherService.Tests
                 Castle.MicroKernel.Registration.Component.For<IServiceAggregator>()
                     .Instance(_serviceAggregatorMock.Object)
                     .LifestyleSingleton());
+
+            Ioc.Container.Register(
+                Castle.MicroKernel.Registration.Component.For<IDateTimeProvider>()
+                .Instance(_dateTimeProviderMock.Object)
+                .LifestyleSingleton());
         }
 
         [Test]
@@ -53,6 +62,8 @@ namespace WeatherService.Tests
 
             Assert.NotNull(result);
             Assert.AreEqual(0, result.Count());
+            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Moq.Times.Never);
+            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Moq.Times.Never);
         }
 
         [Test]
@@ -64,7 +75,8 @@ namespace WeatherService.Tests
                 .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
                 .Returns(new WeatherInfo()
                 {
-                    CityName = ChelyabinskCityName
+                    CityName = ChelyabinskCityName,
+                    LastUpdated = _todayDate
                 });
 
             var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
@@ -72,6 +84,94 @@ namespace WeatherService.Tests
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
             Assert.AreEqual(ChelyabinskCityName, result.First().CityName);
+            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Moq.Times.Never);
+            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Moq.Times.Never);
+        }
+
+        [Test]
+        public void TestIfOneCityNameProvidedAndThisCityNotExistsInDatabaseReturnsListWithOneElementFromService()
+        {
+            var sut = GetSut();
+
+            _weatherInfoRepositoryMock
+                .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
+                .Returns((WeatherInfo)null);
+
+            _serviceAggregatorMock
+                .Setup(p => p.AggregateWeatherInfo(It.IsAny<string>()))
+                .Returns(new WeatherInfo()
+                {
+                    CityName = ChelyabinskCityName,
+                    LastUpdated = _todayDate
+                });
+
+            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+
+            Assert.NotNull(result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(ChelyabinskCityName, result.First().CityName);
+            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Moq.Times.Once);
+            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Moq.Times.Never);
+        }
+
+        [Test]
+        public void TestIfOneCityNameProvidedAndThisCityExistsInDatabaseButTimeExpiredReturnsListWithOneElementFromService()
+        {
+            var sut = GetSut();
+
+            _weatherInfoRepositoryMock
+                .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
+                .Returns(new WeatherInfo()
+                {
+                    CityName = ChelyabinskCityName,
+                    LastUpdated = _todayDate.AddHours(-10)
+                });
+
+            _serviceAggregatorMock
+                .Setup(p => p.AggregateWeatherInfo(It.IsAny<string>()))
+                .Returns(new WeatherInfo()
+                {
+                    CityName = ChelyabinskCityName,
+                    LastUpdated = _todayDate
+                });
+
+            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+
+            Assert.NotNull(result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(ChelyabinskCityName, result.First().CityName);
+            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Moq.Times.Never);
+            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Moq.Times.Once);
+        }
+
+        [Test]
+        public void TestIfOneCityNameProvidedAndThisCityExistsInDatabaseButTimeNotExpiredReturnsListWithOneElementFromService()
+        {
+            var sut = GetSut();
+
+            _weatherInfoRepositoryMock
+                .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
+                .Returns(new WeatherInfo()
+                {
+                    CityName = ChelyabinskCityName,
+                    LastUpdated = _todayDate.AddHours(-3)
+                });
+
+            _serviceAggregatorMock
+                .Setup(p => p.AggregateWeatherInfo(It.IsAny<string>()))
+                .Returns(new WeatherInfo()
+                {
+                    CityName = ChelyabinskCityName,
+                    LastUpdated = _todayDate
+                });
+
+            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+
+            Assert.NotNull(result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(ChelyabinskCityName, result.First().CityName);
+            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Moq.Times.Never);
+            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Moq.Times.Never);
         }
     }
 }

@@ -11,24 +11,25 @@ namespace BusinessLayer.BusinessServices
     {
         public IEnumerable<WeatherInfo> GrabWeatherInfos(params string[] cityNames)
         {
-            var cityRepository = Ioc.Resolve<IRepository<WeatherInfo>>();
+            var weatherInfosRepository = Ioc.Resolve<IRepository<WeatherInfo>>();
+            var dateTimeProvider = Ioc.Resolve<IDateTimeProvider>();
 
             var weatherInfos = new List<WeatherInfo>();
             foreach (var city in cityNames)
             {
-                var weatherInfo = cityRepository.Get(p => p.CityName == city);
-                if (weatherInfo == null || (weatherInfo.LastUpdated - DateTime.UtcNow) > TimeSpan.FromHours(4))
+                var weatherInfo = weatherInfosRepository.Get(p => p.CityName == city);
+                if ((weatherInfo == null) || (dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
                 {
                     var aggregator = Ioc.Resolve<IServiceAggregator>();
                     var grabbedWeatherInfo = aggregator.AggregateWeatherInfo(city);
                     if (weatherInfo != null)
                     {
                         grabbedWeatherInfo.Id = weatherInfo.Id;
-                        cityRepository.Update(grabbedWeatherInfo);
+                        weatherInfosRepository.Update(grabbedWeatherInfo);
                     }
                     else
                     {
-                        cityRepository.Save(grabbedWeatherInfo);
+                        weatherInfosRepository.Save(grabbedWeatherInfo);
 
                     }
                     weatherInfos.Add(grabbedWeatherInfo);

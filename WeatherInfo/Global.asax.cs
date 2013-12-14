@@ -31,7 +31,8 @@ namespace WeatherInfo
 
             Ioc.Container.Install(new WeatherServiceInstaller(),
                                   new DataAccessInstaller(),
-                                  new BusinessLayerInstaller());
+                                  new BusinessLayerInstaller(),
+                                  new CommonInstaller());
 
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);

@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonInstaller.cs" />
+    <Compile Include="DateTimeProvider.cs" />
+    <Compile Include="IDateTimeProvider.cs" />
     <Compile Include="Ioc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
