@@ -15,12 +15,20 @@ namespace WeatherService.Services
         public OpenWeatherService()
         {
             RestClient = new RestClient("http://api.openweathermap.org");
-            RequestedUrl = "/data/2.5/weather?q={0}";
         }
 
         public override string ServiceName()
         {
             return "Open Weather Service";
+        }
+
+        protected override RestRequest ProduceRequest(string cityName)
+        {
+            var requestString = String.Format("/data/2.5/weather?q={0}", cityName);
+
+            var request = new RestRequest(requestString, Method.GET);
+
+            return request;
         }
     }
 }

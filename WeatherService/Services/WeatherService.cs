@@ -23,23 +23,34 @@ namespace WeatherService.Services
 
         public TEntity GetWeatherInfo(string cityName, TEntity entity)
         {
-            var requestString = String.Format(RequestedUrl, cityName);
-
-            var request = new RestRequest(requestString, Method.GET);
-
-            var response = RestClient.Execute<TModel>(request);
-            if ((response.StatusCode != HttpStatusCode.OK) || (response.ResponseStatus == ResponseStatus.Error))
-            {
-                var message = string.Format("Web service request to {0} failed", ServiceName());
-                throw new IOException(message);
-            }
+            var serviceModel = ProduceAndExecuteRequest(cityName);
 
             var mapper = Ioc.Resolve<TMapper>();
-            mapper.Map(entity, response.Data);
+            mapper.Map(entity, serviceModel);
 
             return entity;
         }
 
         public abstract string ServiceName();
+
+        protected TModel ProduceAndExecuteRequest(string cityName)
+        {
+            var request = ProduceRequest(cityName);
+            var model = ExecuteRequest(request, cityName);
+            return model;
+        }
+
+        protected abstract RestRequest ProduceRequest(string cityName);
+
+        protected virtual TModel ExecuteRequest(RestRequest request, string cityName)
+        {
+            var response = RestClient.Execute<TModel>(request);
+            if ((response.StatusCode != HttpStatusCode.OK) || (response.ResponseStatus == ResponseStatus.Error))
+            {
+                var message = string.Format("Web service request to {0} failed for city {1}", ServiceName(), cityName);
+                throw new IOException(message);
+            }
+            return response.Data;
+        }
     }
 }
