@@ -7,40 +7,89 @@
         <div class="content-wrapper">
             <hgroup class="title">
                 <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
             </hgroup>
             <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
+                Welcome to the service, which provides information about weather in some cities. Enjoy!
             </p>
         </div>
     </section>
 }
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
-
-    <li class="two">
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
-
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+<h3>Weather Information:</h3>
+<div class="round">
+    @foreach (var info in Model.WeatherInfos)
+    {
+        <text>City name: </text>
+        if (info.CityName != null)
+        {
+            @info.CityName<text><br/></text>
+        }
+        <text>Country: </text>
+        if (info.Country != null)
+        {
+            @info.Country<text><br/></text>
+        }
+        <text>Weather description: </text>
+        if (info.Description != null)
+        {
+            @info.Description<text><br/></text>
+        }
+        <text>Elevation over level of ocean: </text>
+        if (info.Elevation != null)
+        {
+            @info.Elevation<text><br/></text>
+        }
+        <text>Latitude: </text>
+        if (info.Latitude.HasValue)
+        {
+            @info.Latitude.Value<text><br/></text>
+        }
+        <text>Longitude: </text>
+        if (info.Longitude.HasValue)
+        {
+            @info.Longitude<text><br/></text>
+        }
+        <text>Pressure in barometer's mm: </text>
+        if (info.PressureMb.HasValue)
+        {
+            @info.PressureMb<text><br/></text>
+        }
+        <text>Relative humidity: </text>
+        if (info.RelativeHumidity != null)
+        {
+            @info.RelativeHumidity<text><br/></text>
+        }
+        <text>Temperature in celcius: </text>
+        if (info.TemperatureCelcius.HasValue)
+        {
+            @info.TemperatureCelcius<text><br/></text>
+        }
+        <text>Visibility distance in km: </text>
+        if (info.VisibilityDistance.HasValue)
+        {
+            @info.VisibilityDistance<text><br/></text>
+        }
+        <text>Wind angle: </text>
+        if (info.WindAngle.HasValue)
+        {
+            @info.WindAngle<text><br/></text>
+        }
+        <text>Wind direction : </text>
+        if (info.WindDirection != null)
+        {
+            @info.WindDirection<text><br/></text>
+        }
+        <text>Wind speed in kph: </text>
+        if (info.WindSpeedKph.HasValue)
+        {
+            @info.WindSpeedKph<text><br/></text>
+        }
+        <text>Wind speed in mps: </text>
+        if (info.WindSpeedMs.HasValue)
+        {
+            @info.WindSpeedMs<text><br/></text>
+        }
+        <text>Measurement time in Utc: </text>@info.LastUpdated<text><br/></text>
+        <text><br/></text>
+        <text><br/></text>
+    }
+</div>
