@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessLayer.BusinessServices;
 using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Common;
 using DataAccess.Entities;
 using DataAccess.Repository;
 using Moq;
 using NUnit.Framework;
 using WeatherService.ServiceAggregator;
+using WeatherService.ServiceParameters;
 
 namespace WeatherService.Tests
 {
@@ -19,7 +21,7 @@ namespace WeatherService.Tests
     public class WeatherGrabberBusinessServiceTests
     {
         private Mock<IRepository<WeatherInfo>> _weatherInfoRepositoryMock;
-        private Mock<IServiceAggregator> _serviceAggregatorMock;
+        private Mock<IServiceAggregator<WeatherInfo, WeatherServiceParameters>> _serviceAggregatorMock;
         private Mock<IDateTimeProvider> _dateTimeProviderMock;
         private string ChelyabinskCityName = "Chelyabinsk";
         private DateTime _todayDate = new DateTime(2012, 10, 14, 12, 0, 0);
@@ -30,10 +32,12 @@ namespace WeatherService.Tests
         }
 
         [SetUp]
-        public void Setup()
+        public void FixtureSetup()
         {
+            Ioc.Container = new WindsorContainer();
+            
             _weatherInfoRepositoryMock = new Mock<IRepository<WeatherInfo>>();
-            _serviceAggregatorMock = new Mock<IServiceAggregator>();
+            _serviceAggregatorMock = new Mock<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>();
             _dateTimeProviderMock = new Mock<IDateTimeProvider>();
             _dateTimeProviderMock.Setup(p => p.UtcNow()).Returns(_todayDate);
 
@@ -43,7 +47,7 @@ namespace WeatherService.Tests
                     .LifestyleSingleton());
 
             Ioc.Container.Register(
-                Castle.MicroKernel.Registration.Component.For<IServiceAggregator>()
+                Castle.MicroKernel.Registration.Component.For<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>()
                     .Instance(_serviceAggregatorMock.Object)
                     .LifestyleSingleton());
 
@@ -98,7 +102,7 @@ namespace WeatherService.Tests
                 .Returns((WeatherInfo)null);
 
             _serviceAggregatorMock
-                .Setup(p => p.AggregateWeatherInfo(It.IsAny<string>()))
+                .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
                 .Returns(new WeatherInfo()
                 {
                     CityName = ChelyabinskCityName,
@@ -128,7 +132,7 @@ namespace WeatherService.Tests
                 });
 
             _serviceAggregatorMock
-                .Setup(p => p.AggregateWeatherInfo(It.IsAny<string>()))
+                .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
                 .Returns(new WeatherInfo()
                 {
                     CityName = ChelyabinskCityName,
@@ -158,7 +162,7 @@ namespace WeatherService.Tests
                 });
 
             _serviceAggregatorMock
-                .Setup(p => p.AggregateWeatherInfo(It.IsAny<string>()))
+                .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
                 .Returns(new WeatherInfo()
                 {
                     CityName = ChelyabinskCityName,

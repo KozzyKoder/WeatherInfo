@@ -4,6 +4,7 @@ using Common;
 using DataAccess.Entities;
 using DataAccess.Repository;
 using WeatherService.ServiceAggregator;
+using WeatherService.ServiceParameters;
 
 namespace BusinessLayer.BusinessServices
 {
@@ -17,11 +18,12 @@ namespace BusinessLayer.BusinessServices
             var weatherInfos = new List<WeatherInfo>();
             foreach (var city in cityNames)
             {
+                var weatherServiceParameters = new WeatherServiceParameters(city);
                 var weatherInfo = weatherInfosRepository.Get(p => p.CityName == city);
                 if ((weatherInfo == null) || (dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
                 {
-                    var aggregator = Ioc.Resolve<IServiceAggregator>();
-                    var grabbedWeatherInfo = aggregator.AggregateWeatherInfo(city);
+                    var aggregator = Ioc.Resolve<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>();
+                    var grabbedWeatherInfo = aggregator.AggregateServicesInfo(weatherServiceParameters);
                     if (weatherInfo != null)
                     {
                         grabbedWeatherInfo.Id = weatherInfo.Id;

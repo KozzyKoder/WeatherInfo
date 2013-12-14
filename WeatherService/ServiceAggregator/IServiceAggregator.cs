@@ -12,12 +12,14 @@ using log4net;
 using RestSharp.Extensions;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
+using WeatherService.ServiceParameters;
 using WeatherService.Services;
 
 namespace WeatherService.ServiceAggregator
 {
-    public interface IServiceAggregator
+    public interface IServiceAggregator<out TModel, in TParameters> where TModel : Entity
+                                                                    where TParameters : IServiceParameters
     {
-        WeatherInfo AggregateWeatherInfo(string cityName);
+        TModel AggregateServicesInfo(TParameters parameters);
     }
 }

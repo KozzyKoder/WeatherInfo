@@ -10,19 +10,20 @@ using DataAccess.Entities;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
+using WeatherService.ServiceParameters;
 
 namespace WeatherService.Services
 {
-    public abstract class WeatherService<TModel, TMapper> : IService<WeatherInfo>
+    public abstract class WeatherService<TModel, TMapper> : IService<WeatherInfo, WeatherServiceParameters>
         where TModel : ServiceModel, new()
         where TMapper : IServiceModelMapper<WeatherInfo, TModel>
     {
         protected RestClient RestClient;
         protected string RequestedUrl;
 
-        public WeatherInfo GetWeatherInfo(string cityName, WeatherInfo entity)
+        public WeatherInfo MakeRequest(WeatherServiceParameters parameters, WeatherInfo entity)
         {
-            var serviceModel = ProduceAndExecuteRequest(cityName);
+            var serviceModel = ProduceAndExecuteRequest(parameters.CityName);
 
             var mapper = Ioc.Resolve<TMapper>();
             mapper.Map(entity, serviceModel);

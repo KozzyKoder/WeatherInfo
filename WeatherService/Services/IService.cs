@@ -8,11 +8,13 @@ using DataAccess.Entities;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
+using WeatherService.ServiceParameters;
 
 namespace WeatherService.Services
 {
-    public interface IService<TEntity> where TEntity : Entity
+    public interface IService<TEntity, in TParameters> where TEntity : Entity
+                                                    where TParameters : IServiceParameters
     {
-        TEntity GetWeatherInfo(string cityName, TEntity entity);
+        TEntity MakeRequest(TParameters parameters, TEntity entity);
     }
 }

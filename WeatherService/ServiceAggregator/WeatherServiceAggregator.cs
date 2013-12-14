@@ -8,23 +8,24 @@ using System.Threading.Tasks;
 using Common;
 using DataAccess.Entities;
 using log4net;
+using WeatherService.ServiceParameters;
 using WeatherService.Services;
 
 namespace WeatherService.ServiceAggregator
 {
-    public class ServiceAggregator : IServiceAggregator
+    public class WeatherServiceAggregator : IServiceAggregator<WeatherInfo, WeatherServiceParameters>
     {
         protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public WeatherInfo AggregateWeatherInfo(string cityName)
+        public WeatherInfo AggregateServicesInfo(WeatherServiceParameters parameters)
         {
             var weatherInfo = new WeatherInfo();
-            var services = Ioc.Container.ResolveAll(typeof(IService<WeatherInfo>));
-            foreach (IService<WeatherInfo> service in services)
+            var services = Ioc.Container.ResolveAll(typeof(IService<WeatherInfo, WeatherServiceParameters>));
+            foreach (IService<WeatherInfo, WeatherServiceParameters> service in services)
             {
                 try
                 {
-                    service.GetWeatherInfo(cityName, weatherInfo);
+                    service.MakeRequest(parameters, weatherInfo);
                 }
                 catch (IOException e)
                 {
@@ -36,7 +37,7 @@ namespace WeatherService.ServiceAggregator
                 }
             }
 
-            weatherInfo.CityName = cityName;
+            weatherInfo.CityName = parameters.CityName;
             weatherInfo.LastUpdated = DateTime.UtcNow;
 
             return weatherInfo;
