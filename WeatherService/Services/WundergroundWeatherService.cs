@@ -16,5 +16,10 @@ namespace WeatherService.Services
             RestClient = new RestClient("http://api.wunderground.com");
             RequestedUrl = "/api/ce44da16196c57b7/conditions/q/CA/{0}.json";
         }
+
+        public override string ServiceName()
+        {
+            return "Wunderground Weather Service";
+        }
     }
 }

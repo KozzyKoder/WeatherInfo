@@ -54,7 +54,13 @@ namespace DataAccess
             }
 
             var connectionString = CreateConnectionString(databasePath);
-            
+
+            var fullPathToDatabase = Path.GetDirectoryName(databasePath);
+            if (fullPathToDatabase != null && !Directory.Exists(fullPathToDatabase))
+            {
+                Directory.CreateDirectory(fullPathToDatabase);
+            }
+
             SQLiteConnection.CreateFile(databasePath);
 
             var connection = new SQLiteConnection(connectionString);

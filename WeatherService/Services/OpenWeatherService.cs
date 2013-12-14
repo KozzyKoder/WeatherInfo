@@ -17,5 +17,10 @@ namespace WeatherService.Services
             RestClient = new RestClient("http://api.openweathermap.org");
             RequestedUrl = "/data/2.5/weather?q={0}";
         }
+
+        public override string ServiceName()
+        {
+            return "Open Weather Service";
+        }
     }
 }

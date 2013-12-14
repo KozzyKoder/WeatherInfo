@@ -28,9 +28,10 @@ namespace WeatherService.Services
             var request = new RestRequest(requestString, Method.GET);
 
             var response = RestClient.Execute<TModel>(request);
-            if (response.StatusCode != HttpStatusCode.OK)
+            if ((response.StatusCode != HttpStatusCode.OK) || (response.ResponseStatus == ResponseStatus.Error))
             {
-                throw new IOException("Web service request failed");
+                var message = string.Format("Web service request to {0} failed", ServiceName());
+                throw new IOException(message);
             }
 
             var mapper = Ioc.Resolve<TMapper>();
@@ -38,5 +39,7 @@ namespace WeatherService.Services
 
             return entity;
         }
+
+        public abstract string ServiceName();
     }
 }
