@@ -21,37 +21,27 @@ namespace WeatherService.Tests
         private Mock<IDateTimeProvider> _dateTimeProviderMock;
         private const string ChelyabinskCityName = "Chelyabinsk";
         private DateTime _todayDate = new DateTime(2012, 10, 14, 12, 0, 0);
-        private List<string> CitiesList = new List<string>(){ ChelyabinskCityName};
+        private readonly List<string> _citiesList = new List<string>(){ ChelyabinskCityName };
 
         public IWeatherGrabberBusinessService GetSut()
         {
-            return new WeatherGrabberBusinessService();
+            return new WeatherGrabberBusinessService(_weatherInfoRepositoryMock.Object,
+                                                     _dateTimeProviderMock.Object,
+                                                     _serviceAggregatorMock.Object);
         }
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void FixtureSetup()
         {
-            Ioc.Container = new WindsorContainer();
-            
-            _weatherInfoRepositoryMock = new Mock<IRepository<WeatherInfo>>();
             _serviceAggregatorMock = new Mock<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>();
             _dateTimeProviderMock = new Mock<IDateTimeProvider>();
             _dateTimeProviderMock.Setup(p => p.UtcNow()).Returns(_todayDate);
+        }
 
-            Ioc.Container.Register(
-                Castle.MicroKernel.Registration.Component.For<IRepository<WeatherInfo>>()
-                    .Instance(_weatherInfoRepositoryMock.Object)
-                    .LifestyleSingleton());
-
-            Ioc.Container.Register(
-                Castle.MicroKernel.Registration.Component.For<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>()
-                    .Instance(_serviceAggregatorMock.Object)
-                    .LifestyleSingleton());
-
-            Ioc.Container.Register(
-                Castle.MicroKernel.Registration.Component.For<IDateTimeProvider>()
-                .Instance(_dateTimeProviderMock.Object)
-                .LifestyleSingleton());
+        [SetUp]
+        public void SetUp()
+        {
+            _weatherInfoRepositoryMock = new Mock<IRepository<WeatherInfo>>();
         }
 
         [Test]
@@ -72,15 +62,9 @@ namespace WeatherService.Tests
         {
             var sut = GetSut();
 
-            _weatherInfoRepositoryMock
-                .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
-                .Returns(new WeatherInfo
-                {
-                    CityName = ChelyabinskCityName,
-                    LastUpdated = _todayDate
-                });
+            SetupWeatherInfoRepositoryMock(_todayDate);
 
-            var result = sut.GrabWeatherInfos(CitiesList).ToList();
+            var result = sut.GrabWeatherInfos(_citiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -98,15 +82,9 @@ namespace WeatherService.Tests
                 .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
                 .Returns((WeatherInfo)null);
 
-            _serviceAggregatorMock
-                .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
-                .Returns(new WeatherInfo
-                {
-                    CityName = ChelyabinskCityName,
-                    LastUpdated = _todayDate
-                });
+            SetupServiceAggregatorMock();
 
-            var result = sut.GrabWeatherInfos(CitiesList).ToList();
+            var result = sut.GrabWeatherInfos(_citiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -120,23 +98,11 @@ namespace WeatherService.Tests
         {
             var sut = GetSut();
 
-            _weatherInfoRepositoryMock
-                .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
-                .Returns(new WeatherInfo
-                {
-                    CityName = ChelyabinskCityName,
-                    LastUpdated = _todayDate.AddHours(-10)
-                });
+            SetupWeatherInfoRepositoryMock(_todayDate.AddHours(-10));
 
-            _serviceAggregatorMock
-                .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
-                .Returns(new WeatherInfo
-                {
-                    CityName = ChelyabinskCityName,
-                    LastUpdated = _todayDate
-                });
+            SetupServiceAggregatorMock();
 
-            var result = sut.GrabWeatherInfos(CitiesList).ToList();
+            var result = sut.GrabWeatherInfos(_citiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -150,14 +116,32 @@ namespace WeatherService.Tests
         {
             var sut = GetSut();
 
+            SetupWeatherInfoRepositoryMock(_todayDate.AddHours(-3));
+
+            SetupServiceAggregatorMock();
+
+            var result = sut.GrabWeatherInfos(_citiesList).ToList();
+
+            Assert.NotNull(result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual(ChelyabinskCityName, result.First().CityName);
+            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Times.Never);
+            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Times.Never);
+        }
+
+        private void SetupWeatherInfoRepositoryMock(DateTime lastUpdated)
+        {
             _weatherInfoRepositoryMock
                 .Setup(p => p.Get(It.IsAny<Func<WeatherInfo, bool>>()))
                 .Returns(new WeatherInfo
                 {
                     CityName = ChelyabinskCityName,
-                    LastUpdated = _todayDate.AddHours(-3)
+                    LastUpdated = lastUpdated
                 });
+        }
 
+        private void SetupServiceAggregatorMock()
+        {
             _serviceAggregatorMock
                 .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
                 .Returns(new WeatherInfo
@@ -165,14 +149,6 @@ namespace WeatherService.Tests
                     CityName = ChelyabinskCityName,
                     LastUpdated = _todayDate
                 });
-
-            var result = sut.GrabWeatherInfos(CitiesList).ToList();
-
-            Assert.NotNull(result);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(ChelyabinskCityName, result.First().CityName);
-            _weatherInfoRepositoryMock.Verify(p => p.Save(It.IsAny<WeatherInfo>()), Times.Never);
-            _weatherInfoRepositoryMock.Verify(p => p.Update(It.IsAny<WeatherInfo>()), Times.Never);
         }
     }
 }

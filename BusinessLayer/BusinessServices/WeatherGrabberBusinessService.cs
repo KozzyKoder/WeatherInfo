@@ -10,29 +10,38 @@ namespace BusinessLayer.BusinessServices
 {
     public class WeatherGrabberBusinessService : IWeatherGrabberBusinessService
     {
+        private readonly IRepository<WeatherInfo> _weatherInfoRepository;
+        private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly IServiceAggregator<WeatherInfo, WeatherServiceParameters> _weatherServiceAggregator;
+
+        public WeatherGrabberBusinessService(IRepository<WeatherInfo> weatherInfoRepository,
+                                             IDateTimeProvider dateTimeProvider,
+                                             IServiceAggregator<WeatherInfo, WeatherServiceParameters> weatherServiceAggregator)
+        {
+            _weatherInfoRepository = weatherInfoRepository;
+            _dateTimeProvider = dateTimeProvider;
+            _weatherServiceAggregator = weatherServiceAggregator;
+        }
+
         public IEnumerable<WeatherInfo> GrabWeatherInfos(List<string> cityNames)
         {
-            var weatherInfosRepository = Ioc.Resolve<IRepository<WeatherInfo>>();
-            var dateTimeProvider = Ioc.Resolve<IDateTimeProvider>();
-
             var weatherInfos = new List<WeatherInfo>();
             foreach (var cityName in cityNames)
             {
                 string city = cityName;
                 var weatherServiceParameters = new WeatherServiceParameters(cityName);
-                var weatherInfo = weatherInfosRepository.Get(p => p.CityName == city);
-                if ((weatherInfo == null) || (dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
+                var weatherInfo = _weatherInfoRepository.Get(p => p.CityName == city);
+                if ((weatherInfo == null) || (_dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
                 {
-                    var aggregator = Ioc.Resolve<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>();
-                    var grabbedWeatherInfo = aggregator.AggregateServicesInfo(weatherServiceParameters);
+                    var grabbedWeatherInfo = _weatherServiceAggregator.AggregateServicesInfo(weatherServiceParameters);
                     if (weatherInfo != null)
                     {
                         grabbedWeatherInfo.Id = weatherInfo.Id;
-                        weatherInfosRepository.Update(grabbedWeatherInfo);
+                        _weatherInfoRepository.Update(grabbedWeatherInfo);
                     }
                     else
                     {
-                        weatherInfosRepository.Save(grabbedWeatherInfo);
+                        _weatherInfoRepository.Save(grabbedWeatherInfo);
 
                     }
                     weatherInfos.Add(grabbedWeatherInfo);
