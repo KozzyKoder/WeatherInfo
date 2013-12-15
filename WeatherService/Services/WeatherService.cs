@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Common;
 using DataAccess.Entities;
 using RestSharp;
@@ -15,7 +10,7 @@ using WeatherService.ServiceParameters;
 namespace WeatherService.Services
 {
     public abstract class WeatherService<TModel, TMapper> : IService<WeatherInfo, WeatherServiceParameters>
-        where TModel : ServiceModel, new()
+        where TModel : IServiceModel, new()
         where TMapper : IServiceModelMapper<WeatherInfo, TModel>
     {
         protected RestClient RestClient;

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WeatherService.ServiceModels
 {
-    public class WundergroundServiceModel : ServiceModel
+    public class WundergroundServiceModel : IServiceModel
     {
         public WundergroundObservation CurrentObservation { get; set; }
     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using DataAccess.Entities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;

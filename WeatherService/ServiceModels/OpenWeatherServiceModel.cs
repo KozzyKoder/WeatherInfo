@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WeatherService.ServiceModels
 {
-    public class OpenWeatherServiceModel : ServiceModel
+    public class OpenWeatherServiceModel : IServiceModel
     {
         public OpenWeatherCoordinates Coord { get; set; }
         public OpenWeatherSystem Sys { get; set; }

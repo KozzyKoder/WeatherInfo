@@ -2,6 +2,7 @@
 using System.IO;
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 
 namespace DataAccess
 {
@@ -17,7 +18,7 @@ namespace DataAccess
             _configuration = new Configuration();
             _configuration.Configure();
             _configuration.SetProperty("connection.connection_string", connectionString);
-            _configuration.AddAssembly(typeof(DataAccess.Entities.WeatherInfo).Assembly);
+            _configuration.AddAssembly(typeof(Entities.WeatherInfo).Assembly);
 
             if (!File.Exists(databasePath))
             {
@@ -41,8 +42,7 @@ namespace DataAccess
 
         private static void BuildSchema(Configuration config, SQLiteConnection connection)
         {
-            NHibernate.Tool.hbm2ddl.SchemaExport se;
-            se = new NHibernate.Tool.hbm2ddl.SchemaExport(config);
+            var se = new SchemaExport(config);
             se.Execute(false, true, false, connection, null);
         }
 

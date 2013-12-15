@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace WeatherInfo
+namespace WeatherInfo.App_Start
 {
     public class BundleConfig
     {

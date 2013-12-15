@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using DataAccess.Entities;
 using WeatherService.ServiceAggregator;
 using WeatherService.ServiceModelMappers;
-using WeatherService.ServiceModels;
 using WeatherService.ServiceParameters;
 using WeatherService.Services;
 

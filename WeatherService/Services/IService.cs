@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.NetworkInformation;
-using Common;
-using DataAccess.Entities;
-using RestSharp;
-using WeatherService.ServiceModelMappers;
-using WeatherService.ServiceModels;
+﻿using DataAccess.Entities;
 using WeatherService.ServiceParameters;
 
 namespace WeatherService.Services

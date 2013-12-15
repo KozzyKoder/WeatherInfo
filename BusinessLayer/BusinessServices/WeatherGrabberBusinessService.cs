@@ -16,9 +16,10 @@ namespace BusinessLayer.BusinessServices
             var dateTimeProvider = Ioc.Resolve<IDateTimeProvider>();
 
             var weatherInfos = new List<WeatherInfo>();
-            foreach (var city in cityNames)
+            foreach (var cityName in cityNames)
             {
-                var weatherServiceParameters = new WeatherServiceParameters(city);
+                string city = cityName;
+                var weatherServiceParameters = new WeatherServiceParameters(cityName);
                 var weatherInfo = weatherInfosRepository.Get(p => p.CityName == city);
                 if ((weatherInfo == null) || (dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
                 {

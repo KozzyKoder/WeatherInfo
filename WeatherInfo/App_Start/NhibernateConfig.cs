@@ -1,7 +1,6 @@
-﻿using System.Configuration;
-using DataAccess;
+﻿using DataAccess;
 
-namespace WeatherInfo
+namespace WeatherInfo.App_Start
 {
     public class NhibernateConfig
     {

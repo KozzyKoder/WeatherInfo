@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BusinessLayer;
 using Common;
 using DataAccess;
-using DataAccess.Repository;
 using log4net.Config;
+using WeatherInfo.App_Start;
 using WeatherService;
 
 namespace WeatherInfo
