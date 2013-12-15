@@ -24,10 +24,14 @@ namespace WeatherInfo
             var databaseFullPath = Server.MapPath(databasePath);
             NhibernateConfig.Setup(databaseFullPath);
 
+            var controllerFactory = new WeatherInfoControllerFactory(Ioc.Container.Kernel);
+            ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+
             Ioc.Container.Install(new WeatherServiceInstaller(),
                                   new DataAccessInstaller(),
                                   new BusinessLayerInstaller(),
-                                  new CommonInstaller());
+                                  new CommonInstaller(),
+                                  new WeatherInfoInstaller());
 
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);

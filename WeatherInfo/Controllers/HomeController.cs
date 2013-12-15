@@ -10,8 +10,14 @@ namespace WeatherInfo.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IWeatherGrabberBusinessService _weatherGrabberBusinessService;
         protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        
+
+        public HomeController(IWeatherGrabberBusinessService weatherGrabberBusinessService)
+        {
+            _weatherGrabberBusinessService = weatherGrabberBusinessService;
+        }
+
         public ActionResult Index()
         {
             var weatherInfosGrabberBusinessService = Ioc.Resolve<IWeatherGrabberBusinessService>();
