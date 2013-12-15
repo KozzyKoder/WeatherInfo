@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using BusinessLayer.ServiceAggregator;
 using Common;
@@ -12,7 +13,7 @@ namespace BusinessLayer.BusinessServices
         private readonly IRepository<WeatherInfo> _weatherInfoRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IWeatherServiceAggregator _weatherWeatherServiceAggregator;
-        private readonly Dictionary<string, WeatherInfo> _cache;
+        private readonly ConcurrentDictionary<string, WeatherInfo> _cache;
 
         public WeatherGrabberBusinessService(IRepository<WeatherInfo> weatherInfoRepository,
                                              IDateTimeProvider dateTimeProvider,
@@ -21,7 +22,7 @@ namespace BusinessLayer.BusinessServices
             _weatherInfoRepository = weatherInfoRepository;
             _dateTimeProvider = dateTimeProvider;
             _weatherWeatherServiceAggregator = weatherWeatherServiceAggregator;
-            _cache = new Dictionary<string, WeatherInfo>();
+            _cache = new ConcurrentDictionary<string, WeatherInfo>();
         }
 
         public IEnumerable<WeatherInfo> GrabWeatherInfos(List<string> cityNames)
