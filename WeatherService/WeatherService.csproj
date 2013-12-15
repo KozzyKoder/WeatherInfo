@@ -63,8 +63,6 @@
     <Compile Include="ServiceModels\OpenWeatherServiceModel.cs" />
     <Compile Include="ServiceModels\WundergroundServiceModel.cs" />
     <Compile Include="ServiceModelMappers\WundergroundServiceModelMapper.cs" />
-    <Compile Include="ServiceParameters\IServiceParameters.cs" />
-    <Compile Include="ServiceParameters\WeatherServiceParameters.cs" />
     <Compile Include="Services\IWeatherService.cs" />
     <Compile Include="Services\OpenWeatherService.cs" />
     <Compile Include="Services\WeatherService.cs" />
