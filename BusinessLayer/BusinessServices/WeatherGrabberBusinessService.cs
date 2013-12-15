@@ -4,7 +4,6 @@ using Common;
 using DataAccess.Entities;
 using DataAccess.Repository;
 using WeatherService.ServiceAggregator;
-using WeatherService.ServiceParameters;
 
 namespace BusinessLayer.BusinessServices
 {

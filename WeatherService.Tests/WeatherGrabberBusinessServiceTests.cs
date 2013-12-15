@@ -9,7 +9,6 @@ using DataAccess.Repository;
 using Moq;
 using NUnit.Framework;
 using WeatherService.ServiceAggregator;
-using WeatherService.ServiceParameters;
 
 namespace WeatherService.Tests
 {
