@@ -17,48 +17,48 @@ namespace DataAccess.Repository
 
         public T Get(Guid id)
         {
-            var session = Factory.OpenSession();
-
-            var entity = session.Query<T>().FirstOrDefault(p => p.Id == id);
-
-            session.Close();
+            T entity;
+            using (var session = Factory.OpenSession())
+            {
+                entity = session.Query<T>().FirstOrDefault(p => p.Id == id);
+            }
 
             return entity;
         }
 
         public T Get(Func<T, bool> predicate)
         {
-            var session = Factory.OpenSession();
-
-            var entity = session.Query<T>().FirstOrDefault(predicate);
-
-            session.Close();
+            T entity;
+            using (var session = Factory.OpenSession())
+            {
+                entity = session.Query<T>().FirstOrDefault(predicate);
+            }
 
             return entity;
         }
 
         public T Save(T entity)
         {
-            var session = Factory.OpenSession();
-
-            var id = (Guid)session.Save(entity);
+            using (var session = Factory.OpenSession())
+            {
+                var id = (Guid)session.Save(entity);
             
-            entity.Id = id;
+                entity.Id = id;
 
-            session.Flush();
-            session.Close();
+                session.Flush();
+            }
 
             return entity;
         }
 
         public void Update(T entity)
         {
-            var session = Factory.OpenSession();
+            using (var session = Factory.OpenSession())
+            {
+                session.Update(entity);
 
-            session.Update(entity);
-
-            session.Flush();
-            session.Close();
+                session.Flush();
+            }
         }
     }
 }
