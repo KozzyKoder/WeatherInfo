@@ -59,14 +59,29 @@ namespace WeatherService.ServiceAggregator
             weatherInfo.RelativeHumidity = weatherInfos.GetOneResult(info => info.RelativeHumidity != null, info => info.RelativeHumidity);
             weatherInfo.WindDirection = weatherInfos.GetOneResult(info => info.WindDirection != null, info => info.WindDirection);
 
-            weatherInfo.Latitude = weatherInfos.GetMultipleResults(p => p.Latitude.HasValue, p => p.Latitude).Average();
-            weatherInfo.Longitude = weatherInfos.GetMultipleResults(p => p.Longitude.HasValue, p => p.Longitude).Average();
-            weatherInfo.PressureMb = MathExtensions.Floor(weatherInfos.GetMultipleResults(p => p.PressureMb.HasValue, p => p.PressureMb).Average());
-            weatherInfo.TemperatureCelcius = weatherInfos.GetMultipleResults(p => p.TemperatureCelcius.HasValue, p => p.TemperatureCelcius).Average();
-            weatherInfo.VisibilityDistance = weatherInfos.GetMultipleResults(p => p.VisibilityDistance.HasValue, p => p.VisibilityDistance).Average();
-            weatherInfo.WindAngle = MathExtensions.Floor(weatherInfos.GetMultipleResults(p => p.WindAngle.HasValue, p => p.WindAngle).Average());
-            weatherInfo.WindSpeedKph = weatherInfos.GetMultipleResults(p => p.WindSpeedKph.HasValue, p => p.WindSpeedKph).Average();
-            weatherInfo.WindSpeedMs = weatherInfos.GetMultipleResults(p => p.WindSpeedMs.HasValue, p => p.WindSpeedMs).Average();
+            var latititudes = weatherInfos.GetMultipleResults(p => p.Latitude.HasValue, p => p.Latitude);
+            weatherInfo.Latitude = latititudes.Any() ? latititudes.Average() : null;
+
+            var longitudes = weatherInfos.GetMultipleResults(p => p.Longitude.HasValue, p => p.Longitude);
+            weatherInfo.Longitude = longitudes.Any() ? longitudes.Average() : null;
+
+            var pressuresInMb = weatherInfos.GetMultipleResults(p => p.PressureMb.HasValue, p => p.PressureMb);
+            weatherInfo.PressureMb = pressuresInMb.Any() ? MathExtensions.Floor(pressuresInMb.Average()) : null;
+
+            var temperaturesCelcius = weatherInfos.GetMultipleResults(p => p.TemperatureCelcius.HasValue, p => p.TemperatureCelcius);
+            weatherInfo.TemperatureCelcius = temperaturesCelcius.Any() ? temperaturesCelcius.Average() : null;
+
+            var visibilityDistances = weatherInfos.GetMultipleResults(p => p.VisibilityDistance.HasValue, p => p.VisibilityDistance);
+            weatherInfo.VisibilityDistance = visibilityDistances.Any() ? visibilityDistances.Average() : null;
+
+            var windAngles = weatherInfos.GetMultipleResults(p => p.WindAngle.HasValue, p => p.WindAngle);
+            weatherInfo.WindAngle = windAngles.Any() ? MathExtensions.Floor(windAngles.Average()) : null;
+
+            var windSpeedsKph = weatherInfos.GetMultipleResults(p => p.WindSpeedKph.HasValue, p => p.WindSpeedKph);
+            weatherInfo.VisibilityDistance = windSpeedsKph.Any() ? windSpeedsKph.Average() : null;
+
+            var windSpeedsMs = weatherInfos.GetMultipleResults(p => p.WindSpeedMs.HasValue, p => p.WindSpeedMs);
+            weatherInfo.WindSpeedMs = windSpeedsMs.Any() ? windSpeedsMs.Average() : null;
 
             return weatherInfo;
         }

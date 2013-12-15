@@ -28,7 +28,7 @@ namespace Common.Extensions
                 return values;
             }
 
-            return new List<TOutput> { default(TOutput) };
+            return new List<TOutput>();
         }
     }
 }
