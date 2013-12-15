@@ -7,7 +7,7 @@ namespace DataAccess.Repository
     {
         T Get(Guid id);
         T Get(Func<T, bool> predicate);
-        void Save(T entity);
+        T Save(T entity);
         void Update(T entity);
     }
 }

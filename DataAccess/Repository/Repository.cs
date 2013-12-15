@@ -37,14 +37,18 @@ namespace DataAccess.Repository
             return entity;
         }
 
-        public void Save(T entity)
+        public T Save(T entity)
         {
             var session = Factory.OpenSession();
 
-            session.Save(entity);
+            var id = (Guid)session.Save(entity);
+            
+            entity.Id = id;
 
             session.Flush();
             session.Close();
+
+            return entity;
         }
 
         public void Update(T entity)
