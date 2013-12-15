@@ -12,10 +12,10 @@ namespace WeatherService.ServiceAggregator
 {
     public class WeatherServiceAggregator : IServiceAggregator<WeatherInfo, WeatherServiceParameters>
     {
-        private readonly IEnumerable<IService<WeatherInfo, WeatherServiceParameters>> _weatherServices;
+        private readonly IEnumerable<IWeatherService> _weatherServices;
         protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public WeatherServiceAggregator(IEnumerable<IService<WeatherInfo, WeatherServiceParameters>> weatherServices)
+        public WeatherServiceAggregator(IEnumerable<IWeatherService> weatherServices)
         {
             _weatherServices = weatherServices;
         }
@@ -23,11 +23,11 @@ namespace WeatherService.ServiceAggregator
         public WeatherInfo AggregateServicesInfo(WeatherServiceParameters parameters)
         {
             var weatherInfo = new WeatherInfo();
-            foreach (IService<WeatherInfo, WeatherServiceParameters> service in _weatherServices)
+            foreach (IWeatherService service in _weatherServices)
             {
                 try
                 {
-                    service.MakeRequest(parameters, weatherInfo);
+                    service.GetWeatherInfo(parameters.CityName, weatherInfo);
                 }
                 catch (IOException e)
                 {

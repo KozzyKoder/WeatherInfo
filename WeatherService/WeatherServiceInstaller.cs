@@ -26,7 +26,7 @@ namespace WeatherService
             );
 
             container.Register(Classes.FromThisAssembly()
-                                    .BasedOn(typeof(IService<,>))
+                                    .BasedOn(typeof(IWeatherService))
                                     .WithService.AllInterfaces()
                                     .LifestyleSingleton());
         }

@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using Common;
 using DataAccess.Entities;
+using log4net;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
@@ -9,36 +12,39 @@ using WeatherService.ServiceParameters;
 
 namespace WeatherService.Services
 {
-    public abstract class WeatherService<TModel, TMapper> : IService<WeatherInfo, WeatherServiceParameters>
+    public abstract class WeatherService<TModel, TMapper> : IWeatherService
         where TModel : IServiceModel, new()
         where TMapper : IServiceModelMapper<WeatherInfo, TModel>
     {
         protected readonly TMapper Mapper;
         protected RestClient RestClient;
         protected string RequestedUrl;
+        protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         protected WeatherService(TMapper mapper)
         {
             Mapper = mapper;
         }
 
-        public WeatherInfo MakeRequest(WeatherServiceParameters parameters, WeatherInfo entity)
+        public WeatherInfo GetWeatherInfo(string cityName, WeatherInfo entity)
         {
-            var serviceModel = ProduceAndExecuteRequest(parameters.CityName);
+            var request = ProduceRequest(cityName);
+            var model = ExecuteRequest(request, cityName);
 
-            Mapper.Map(entity, serviceModel);
+            try
+            {
+                Mapper.Map(entity, model);
+            }
+            catch (Exception e)
+            {
+                var message = string.Format("Error occured while service model mapped in {0} weather service. Maybe, changed data format?", ServiceName());
+                Logger.Error(message, e);
+            }
 
             return entity;
         }
 
         public abstract string ServiceName();
-
-        protected TModel ProduceAndExecuteRequest(string cityName)
-        {
-            var request = ProduceRequest(cityName);
-            var model = ExecuteRequest(request, cityName);
-            return model;
-        }
 
         protected abstract RestRequest ProduceRequest(string cityName);
 
