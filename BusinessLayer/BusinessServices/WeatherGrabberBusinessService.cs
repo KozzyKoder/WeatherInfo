@@ -35,19 +35,19 @@ namespace BusinessLayer.BusinessServices
 
                 if ((weatherInfo == null) || (_dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
                 {
-                    var grabbedWeatherInfo = _weatherWeatherServiceAggregator.Aggregate(city);
+                    var aggregatedWeatherInfo = _weatherWeatherServiceAggregator.Aggregate(city);
                     if (weatherInfo != null)
                     {
-                        grabbedWeatherInfo.Id = weatherInfo.Id;
-                        _weatherInfoRepository.Update(grabbedWeatherInfo);
-                        _cache[city] = grabbedWeatherInfo;
+                        aggregatedWeatherInfo.Id = weatherInfo.Id;
+                        _weatherInfoRepository.Update(aggregatedWeatherInfo);
+                        _cache[city] = aggregatedWeatherInfo;
                     }
                     else
                     {
-                        _weatherInfoRepository.Save(grabbedWeatherInfo);
-                        _cache[city] = grabbedWeatherInfo;
+                        _weatherInfoRepository.Save(aggregatedWeatherInfo);
+                        _cache[city] = aggregatedWeatherInfo;
                     }
-                    weatherInfos.Add(grabbedWeatherInfo);
+                    weatherInfos.Add(aggregatedWeatherInfo);
                 }
                 else
                 {
