@@ -18,75 +18,61 @@
 <div class="round">
     @foreach (var info in Model.WeatherInfos)
     {
-        <text>City name: </text>
         if (info.CityName != null)
         {
-            @info.CityName<text><br/></text>
+            <text>City name: </text>@info.CityName<text><br/></text>
         }
-        <text>Country: </text>
         if (info.Country != null)
         {
-            @info.Country<text><br/></text>
+            <text>Country: </text>@info.Country<text><br/></text>
         }
-        <text>Weather description: </text>
         if (info.Description != null)
         {
-            @info.Description<text><br/></text>
+            <text>Weather description: </text>@info.Description<text><br/></text>
         }
-        <text>Elevation over level of ocean: </text>
         if (info.Elevation != null)
         {
-            @info.Elevation<text><br/></text>
+            <text>Elevation over level of ocean: </text>@info.Elevation<text><br/></text>
         }
-        <text>Latitude: </text>
         if (info.Latitude.HasValue)
         {
-            @info.Latitude.Value<text><br/></text>
+            <text>Latitude: </text>@info.Latitude.Value<text><br/></text>
         }
-        <text>Longitude: </text>
         if (info.Longitude.HasValue)
         {
-            @info.Longitude<text><br/></text>
+            <text>Longitude: </text>@info.Longitude<text><br/></text>
         }
-        <text>Pressure in barometer's mm: </text>
         if (info.PressureMb.HasValue)
         {
-            @info.PressureMb<text><br/></text>
+            <text>Pressure in barometer's mm: </text>@info.PressureMb<text><br/></text>
         }
-        <text>Relative humidity: </text>
         if (info.RelativeHumidity != null)
         {
-            @info.RelativeHumidity<text><br/></text>
+            <text>Relative humidity: </text>@info.RelativeHumidity<text><br/></text>
         }
-        <text>Temperature in celcius: </text>
         if (info.TemperatureCelcius.HasValue)
         {
-            @info.TemperatureCelcius<text><br/></text>
+            <text>Temperature in celcius: </text>@info.TemperatureCelcius<text><br/></text>
         }
-        <text>Visibility distance in km: </text>
         if (info.VisibilityDistance.HasValue)
         {
-            @info.VisibilityDistance<text><br/></text>
+            <text>Visibility distance in km: </text>@info.VisibilityDistance<text><br/></text>
         }
-        <text>Wind angle: </text>
         if (info.WindAngle.HasValue)
         {
-            @info.WindAngle<text><br/></text>
+            <text>Wind angle: </text>@info.WindAngle<text><br/></text>
         }
-        <text>Wind direction : </text>
         if (info.WindDirection != null)
         {
-            @info.WindDirection<text><br/></text>
+            <text>Wind direction : </text>@info.WindDirection<text><br/></text>
         }
-        <text>Wind speed in kph: </text>
         if (info.WindSpeedKph.HasValue)
         {
-            @info.WindSpeedKph<text><br/></text>
+            <text>Wind speed in kph: </text>@info.WindSpeedKph<text><br/></text>
         }
-        <text>Wind speed in mps: </text>
         if (info.WindSpeedMs.HasValue)
         {
-            @info.WindSpeedMs<text><br/></text>
+            <text>Wind speed in mps: </text>@info.WindSpeedMs<text><br/></text>
         }
         <text>Measurement time in Utc: </text>@info.LastUpdated<text><br/></text>
         <text><br/></text>
