@@ -21,7 +21,7 @@ namespace WeatherService
             container.Register(
                Classes.FromThisAssembly()
                   .Where(Component.IsInSameNamespaceAs(typeof(IServiceModelMapper<,>)))
-                  .WithServiceDefaultInterfaces()
+                  .WithService.AllInterfaces()
                   .LifestyleSingleton()
             );
 

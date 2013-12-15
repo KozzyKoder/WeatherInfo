@@ -13,15 +13,20 @@ namespace WeatherService.Services
         where TModel : IServiceModel, new()
         where TMapper : IServiceModelMapper<WeatherInfo, TModel>
     {
+        protected readonly TMapper Mapper;
         protected RestClient RestClient;
         protected string RequestedUrl;
+
+        protected WeatherService(TMapper mapper)
+        {
+            Mapper = mapper;
+        }
 
         public WeatherInfo MakeRequest(WeatherServiceParameters parameters, WeatherInfo entity)
         {
             var serviceModel = ProduceAndExecuteRequest(parameters.CityName);
 
-            var mapper = Ioc.Resolve<TMapper>();
-            mapper.Map(entity, serviceModel);
+            Mapper.Map(entity, serviceModel);
 
             return entity;
         }

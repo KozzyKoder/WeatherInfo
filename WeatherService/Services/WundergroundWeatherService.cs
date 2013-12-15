@@ -1,13 +1,14 @@
 ﻿using System;
+using DataAccess.Entities;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, WundergroundServiceModelMapper>
+    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, IServiceModelMapper<WeatherInfo, WundergroundServiceModel>>
     {
-        public WundergroundWeatherService()
+        public WundergroundWeatherService(IServiceModelMapper<WeatherInfo, WundergroundServiceModel> mapper): base(mapper)
         {
             RestClient = new RestClient("http://api.wunderground.com");
         }

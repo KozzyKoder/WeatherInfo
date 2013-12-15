@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Common;
@@ -11,13 +12,18 @@ namespace WeatherService.ServiceAggregator
 {
     public class WeatherServiceAggregator : IServiceAggregator<WeatherInfo, WeatherServiceParameters>
     {
+        private readonly IEnumerable<IService<WeatherInfo, WeatherServiceParameters>> _weatherServices;
         protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public WeatherServiceAggregator(IEnumerable<IService<WeatherInfo, WeatherServiceParameters>> weatherServices)
+        {
+            _weatherServices = weatherServices;
+        }
 
         public WeatherInfo AggregateServicesInfo(WeatherServiceParameters parameters)
         {
             var weatherInfo = new WeatherInfo();
-            var services = Ioc.Container.ResolveAll(typeof(IService<WeatherInfo, WeatherServiceParameters>));
-            foreach (IService<WeatherInfo, WeatherServiceParameters> service in services)
+            foreach (IService<WeatherInfo, WeatherServiceParameters> service in _weatherServices)
             {
                 try
                 {

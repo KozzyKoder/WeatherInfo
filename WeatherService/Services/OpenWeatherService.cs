@@ -1,13 +1,14 @@
 ﻿using System;
+using DataAccess.Entities;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, OpenWeatherServiceModelMapper>
+    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, IServiceModelMapper<WeatherInfo, OpenWeatherServiceModel>>
     {
-        public OpenWeatherService()
+        public OpenWeatherService(IServiceModelMapper<WeatherInfo, OpenWeatherServiceModel> mapper) : base(mapper)
         {
             RestClient = new RestClient("http://api.openweathermap.org");
         }
