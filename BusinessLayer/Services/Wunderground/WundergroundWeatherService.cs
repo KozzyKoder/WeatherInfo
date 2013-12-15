@@ -1,10 +1,7 @@
 ﻿using System;
-using DataAccess.Entities;
 using RestSharp;
-using WeatherService.ServiceModelMappers;
-using WeatherService.ServiceModels;
 
-namespace WeatherService.Services
+namespace BusinessLayer.Services.Wunderground
 {
     public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, IWeatherServiceModelMapper<WundergroundServiceModel>>
     {

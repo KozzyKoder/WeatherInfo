@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Common;
 using Common.Extensions;
 using DataAccess.Entities;
 using log4net;
-using WeatherService.Services;
+using IWeatherService = BusinessLayer.Services.IWeatherService;
 
-namespace WeatherService.ServiceAggregator
+namespace BusinessLayer.ServiceAggregator
 {
     public class WeatherServiceAggregator : IWeatherServiceAggregator
     {

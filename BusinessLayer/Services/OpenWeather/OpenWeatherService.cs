@@ -1,10 +1,7 @@
 ﻿using System;
-using DataAccess.Entities;
 using RestSharp;
-using WeatherService.ServiceModelMappers;
-using WeatherService.ServiceModels;
 
-namespace WeatherService.Services
+namespace BusinessLayer.Services.OpenWeather
 {
     public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, IWeatherServiceModelMapper<OpenWeatherServiceModel>>
     {

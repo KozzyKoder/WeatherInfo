@@ -1,9 +1,8 @@
 ﻿using DataAccess.Entities;
-using WeatherService.ServiceModels;
 
-namespace WeatherService.ServiceModelMappers
+namespace BusinessLayer.Services.Wunderground
 {
-    public class WundergroundWeatherServiceModelMapper : IWeatherServiceModelMapper<WundergroundServiceModel>
+    public class WundergroundWeatherServiceModelMapper : IWeatherServiceModelMapper<BusinessLayer.Services.Wunderground.WundergroundServiceModel>
     {
         public WeatherInfo Map(WundergroundServiceModel model)
         {

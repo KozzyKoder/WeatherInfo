@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLayer.BusinessServices;
+using BusinessLayer.ServiceAggregator;
 using Castle.Windsor;
 using Common;
 using DataAccess.Entities;
 using DataAccess.Repository;
 using Moq;
 using NUnit.Framework;
-using WeatherService.ServiceAggregator;
 
 namespace WeatherService.Tests
 {

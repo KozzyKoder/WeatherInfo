@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using DataAccess.Entities;
-using WeatherService.ServiceModels;
 
-namespace WeatherService.ServiceModelMappers
+namespace BusinessLayer.Services.OpenWeather
 {
     public class OpenWeatherServiceModelMapper : IWeatherServiceModelMapper<OpenWeatherServiceModel>
     {

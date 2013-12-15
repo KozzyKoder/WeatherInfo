@@ -1,6 +1,6 @@
 ﻿using DataAccess.Entities;
 
-namespace WeatherService.ServiceAggregator
+namespace BusinessLayer.ServiceAggregator
 {
     public interface IWeatherServiceAggregator
     {

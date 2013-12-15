@@ -320,10 +320,6 @@
       <Project>{20cc52f4-585b-4850-a66a-768d7efb9cc9}</Project>
       <Name>DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WeatherService\WeatherService.csproj">
-      <Project>{515e14ae-922e-4ce3-9209-ebc3fde3827b}</Project>
-      <Name>WeatherService</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

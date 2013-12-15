@@ -7,7 +7,6 @@ using Common;
 using DataAccess;
 using log4net.Config;
 using WeatherInfo.App_Start;
-using WeatherService;
 
 namespace WeatherInfo
 {
@@ -27,8 +26,7 @@ namespace WeatherInfo
             var controllerFactory = new WeatherInfoControllerFactory(Ioc.Container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
 
-            Ioc.Container.Install(new WeatherServiceInstaller(),
-                                  new DataAccessInstaller(),
+            Ioc.Container.Install(new DataAccessInstaller(),
                                   new BusinessLayerInstaller(),
                                   new CommonInstaller(),
                                   new WeatherInfoInstaller());

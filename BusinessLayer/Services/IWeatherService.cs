@@ -1,6 +1,6 @@
 ﻿using DataAccess.Entities;
 
-namespace WeatherService.Services
+namespace BusinessLayer.Services
 {
     public interface IWeatherService
     {

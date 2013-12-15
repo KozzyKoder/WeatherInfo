@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WeatherService.ServiceModels
+namespace BusinessLayer.Services.OpenWeather
 {
     public class OpenWeatherServiceModel : IServiceModel
     {

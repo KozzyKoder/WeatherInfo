@@ -1,7 +1,6 @@
 ﻿using DataAccess.Entities;
-using WeatherService.ServiceModels;
 
-namespace WeatherService.ServiceModelMappers
+namespace BusinessLayer.Services
 {
     public interface IWeatherServiceModelMapper<in TModel> where TModel : IServiceModel, new()
     {

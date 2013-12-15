@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using BusinessLayer.ServiceAggregator;
 using Common;
 using DataAccess.Entities;
 using DataAccess.Repository;
-using WeatherService.ServiceAggregator;
 
 namespace BusinessLayer.BusinessServices
 {

@@ -1,4 +1,4 @@
-﻿namespace WeatherService.ServiceModels
+﻿namespace BusinessLayer.Services
 {
     public interface IServiceModel
     {

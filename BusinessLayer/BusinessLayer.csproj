@@ -36,6 +36,14 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +57,18 @@
     <Compile Include="BusinessServices\IWeatherGrabberBusinessService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessServices\WeatherGrabberBusinessService.cs" />
+    <Compile Include="ServiceAggregator\IWeatherServiceAggregator.cs" />
+    <Compile Include="ServiceAggregator\WeatherServiceAggregator.cs" />
+    <Compile Include="Services\IServiceModel.cs" />
+    <Compile Include="Services\IWeatherService.cs" />
+    <Compile Include="Services\IWeatherServiceModelMapper.cs" />
+    <Compile Include="Services\OpenWeather\OpenWeatherService.cs" />
+    <Compile Include="Services\OpenWeather\OpenWeatherServiceModel.cs" />
+    <Compile Include="Services\OpenWeather\OpenWeatherServiceModelMapper.cs" />
+    <Compile Include="Services\WeatherService.cs" />
+    <Compile Include="Services\Wunderground\WundergroundServiceModel.cs" />
+    <Compile Include="Services\Wunderground\WundergroundWeatherService.cs" />
+    <Compile Include="Services\Wunderground\WundergroundWeatherServiceModelMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -58,10 +78,6 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{20cc52f4-585b-4850-a66a-768d7efb9cc9}</Project>
       <Name>DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WeatherService\WeatherService.csproj">
-      <Project>{515e14ae-922e-4ce3-9209-ebc3fde3827b}</Project>
-      <Name>WeatherService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

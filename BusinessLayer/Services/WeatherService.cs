@@ -2,14 +2,11 @@
 using System.IO;
 using System.Net;
 using System.Reflection;
-using Common;
 using DataAccess.Entities;
 using log4net;
 using RestSharp;
-using WeatherService.ServiceModelMappers;
-using WeatherService.ServiceModels;
 
-namespace WeatherService.Services
+namespace BusinessLayer.Services
 {
     public abstract class WeatherService<TModel, TMapper> : IWeatherService
         where TModel : IServiceModel, new()

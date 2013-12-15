@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WeatherService.ServiceModels
+namespace BusinessLayer.Services.Wunderground
 {
     public class WundergroundServiceModel : IServiceModel
     {
