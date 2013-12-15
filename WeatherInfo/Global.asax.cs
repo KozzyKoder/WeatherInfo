@@ -25,7 +25,7 @@ namespace WeatherInfo
         {
             XmlConfigurator.Configure();
 
-            var databasePath = ConfigurationManager.AppSettings["DatabasePath"];
+            var databasePath = WeatherInfoConfiguration.DatabasePath;
             var databaseFullPath = Server.MapPath(databasePath);
             NhibernateConfig.Setup(databaseFullPath);
 
