@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BusinessLayer.BusinessServices;
 using Castle.Windsor;
@@ -20,6 +21,7 @@ namespace WeatherService.Tests
         private Mock<IDateTimeProvider> _dateTimeProviderMock;
         private const string ChelyabinskCityName = "Chelyabinsk";
         private DateTime _todayDate = new DateTime(2012, 10, 14, 12, 0, 0);
+        private List<string> CitiesList = new List<string>(){ ChelyabinskCityName};
 
         public IWeatherGrabberBusinessService GetSut()
         {
@@ -57,7 +59,7 @@ namespace WeatherService.Tests
         {
             var sut = GetSut();
 
-            var result = sut.GrabWeatherInfos();
+            var result = sut.GrabWeatherInfos(new List<string>());
 
             Assert.NotNull(result);
             Assert.AreEqual(0, result.Count());
@@ -78,7 +80,7 @@ namespace WeatherService.Tests
                     LastUpdated = _todayDate
                 });
 
-            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+            var result = sut.GrabWeatherInfos(CitiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -104,7 +106,7 @@ namespace WeatherService.Tests
                     LastUpdated = _todayDate
                 });
 
-            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+            var result = sut.GrabWeatherInfos(CitiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -134,7 +136,7 @@ namespace WeatherService.Tests
                     LastUpdated = _todayDate
                 });
 
-            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+            var result = sut.GrabWeatherInfos(CitiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -164,7 +166,7 @@ namespace WeatherService.Tests
                     LastUpdated = _todayDate
                 });
 
-            var result = sut.GrabWeatherInfos(ChelyabinskCityName).ToList();
+            var result = sut.GrabWeatherInfos(CitiesList).ToList();
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count());

@@ -20,10 +20,9 @@ namespace WeatherInfo.Controllers
 
         public ActionResult Index()
         {
-            var weatherInfosGrabberBusinessService = Ioc.Resolve<IWeatherGrabberBusinessService>();
             var cities = WeatherInfoConfiguration.Cities;
 
-            var weatherInfos = weatherInfosGrabberBusinessService.GrabWeatherInfos(cities.ToArray()).ToList();
+            var weatherInfos = _weatherGrabberBusinessService.GrabWeatherInfos(cities).ToList();
 
             var model = new WeatherViewModel(weatherInfos);
 

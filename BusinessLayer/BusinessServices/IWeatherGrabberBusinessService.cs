@@ -5,6 +5,6 @@ namespace BusinessLayer.BusinessServices
 {
     public interface IWeatherGrabberBusinessService
     {
-        IEnumerable<WeatherInfo> GrabWeatherInfos(params string[] cityNames);
+        IEnumerable<WeatherInfo> GrabWeatherInfos(List<string> cityNames);
     }
 }

@@ -10,7 +10,7 @@ namespace BusinessLayer.BusinessServices
 {
     public class WeatherGrabberBusinessService : IWeatherGrabberBusinessService
     {
-        public IEnumerable<WeatherInfo> GrabWeatherInfos(params string[] cityNames)
+        public IEnumerable<WeatherInfo> GrabWeatherInfos(List<string> cityNames)
         {
             var weatherInfosRepository = Ioc.Resolve<IRepository<WeatherInfo>>();
             var dateTimeProvider = Ioc.Resolve<IDateTimeProvider>();
