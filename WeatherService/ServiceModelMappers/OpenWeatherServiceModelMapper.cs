@@ -4,19 +4,23 @@ using WeatherService.ServiceModels;
 
 namespace WeatherService.ServiceModelMappers
 {
-    public class OpenWeatherServiceModelMapper : IServiceModelMapper<WeatherInfo, OpenWeatherServiceModel>
+    public class OpenWeatherServiceModelMapper : IWeatherServiceModelMapper<OpenWeatherServiceModel>
     {
-        public void Map(WeatherInfo entity, OpenWeatherServiceModel model)
+        public WeatherInfo Map(OpenWeatherServiceModel model)
         {
-            entity.Country = model.Sys.Country;
-            entity.Latitude = model.Coord.Lat;
-            entity.Longitude = model.Coord.Lon;
+            var entity = new WeatherInfo
+            {
+                Country = model.Sys.Country,
+                Latitude = model.Coord.Lat,
+                Longitude = model.Coord.Lon,
+                WindSpeedMs = model.Wind.Speed
+            };
             var weather = model.Weather.FirstOrDefault();
             if (weather != null)
             {
                 entity.Description = weather.Description;
             }
-            entity.WindSpeedMs = model.Wind.Speed;
+            return entity;
         }
     }
 }

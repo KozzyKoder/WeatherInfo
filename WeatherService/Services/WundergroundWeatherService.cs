@@ -6,11 +6,16 @@ using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, IServiceModelMapper<WeatherInfo, WundergroundServiceModel>>
+    public class WundergroundWeatherService : WeatherService<WundergroundServiceModel, IWeatherServiceModelMapper<WundergroundServiceModel>>
     {
-        public WundergroundWeatherService(IServiceModelMapper<WeatherInfo, WundergroundServiceModel> mapper): base(mapper)
+        public WundergroundWeatherService(IWeatherServiceModelMapper<WundergroundServiceModel> mapper): base(mapper)
         {
             RestClient = new RestClient("http://api.wunderground.com");
+        }
+
+        public override int Priority()
+        {
+            return 0;
         }
 
         public override string ServiceName()

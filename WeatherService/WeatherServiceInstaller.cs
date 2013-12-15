@@ -19,7 +19,7 @@ namespace WeatherService
              
             container.Register(
                Classes.FromThisAssembly()
-                  .Where(Component.IsInSameNamespaceAs(typeof(IServiceModelMapper<,>)))
+                  .Where(Component.IsInSameNamespaceAs(typeof(IWeatherServiceModelMapper<>)))
                   .WithService.AllInterfaces()
                   .LifestyleSingleton()
             );

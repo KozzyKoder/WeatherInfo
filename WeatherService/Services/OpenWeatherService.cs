@@ -6,11 +6,16 @@ using WeatherService.ServiceModels;
 
 namespace WeatherService.Services
 {
-    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, IServiceModelMapper<WeatherInfo, OpenWeatherServiceModel>>
+    public class OpenWeatherService : WeatherService<OpenWeatherServiceModel, IWeatherServiceModelMapper<OpenWeatherServiceModel>>
     {
-        public OpenWeatherService(IServiceModelMapper<WeatherInfo, OpenWeatherServiceModel> mapper) : base(mapper)
+        public OpenWeatherService(IWeatherServiceModelMapper<OpenWeatherServiceModel> mapper) : base(mapper)
         {
             RestClient = new RestClient("http://api.openweathermap.org");
+        }
+
+        public override int Priority()
+        {
+            return 1;
         }
 
         public override string ServiceName()

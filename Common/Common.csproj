@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="CommonInstaller.cs" />
     <Compile Include="DateTimeProvider.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="IDateTimeProvider.cs" />
     <Compile Include="Ioc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,7 +13,7 @@ namespace WeatherService.Services
 {
     public abstract class WeatherService<TModel, TMapper> : IWeatherService
         where TModel : IServiceModel, new()
-        where TMapper : IServiceModelMapper<WeatherInfo, TModel>
+        where TMapper : IWeatherServiceModelMapper<TModel>
     {
         protected readonly TMapper Mapper;
         protected RestClient RestClient;
@@ -25,14 +25,15 @@ namespace WeatherService.Services
             Mapper = mapper;
         }
 
-        public WeatherInfo GetWeatherInfo(string cityName, WeatherInfo entity)
+        public WeatherInfo GetWeatherInfo(string cityName)
         {
             var request = ProduceRequest(cityName);
             var model = ExecuteRequest(request, cityName);
+            var weatherInfo = new WeatherInfo();
 
             try
             {
-                Mapper.Map(entity, model);
+                weatherInfo = Mapper.Map(model);
             }
             catch (Exception e)
             {
@@ -40,8 +41,10 @@ namespace WeatherService.Services
                 Logger.Error(message, e);
             }
 
-            return entity;
+            return weatherInfo;
         }
+
+        public abstract int Priority();
 
         public abstract string ServiceName();
 
