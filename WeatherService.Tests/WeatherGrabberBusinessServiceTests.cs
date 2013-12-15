@@ -17,7 +17,7 @@ namespace WeatherService.Tests
     public class WeatherGrabberBusinessServiceTests
     {
         private Mock<IRepository<WeatherInfo>> _weatherInfoRepositoryMock;
-        private Mock<IServiceAggregator<WeatherInfo, WeatherServiceParameters>> _serviceAggregatorMock;
+        private Mock<IWeatherServiceAggregator> _serviceAggregatorMock;
         private Mock<IDateTimeProvider> _dateTimeProviderMock;
         private const string ChelyabinskCityName = "Chelyabinsk";
         private DateTime _todayDate = new DateTime(2012, 10, 14, 12, 0, 0);
@@ -33,7 +33,7 @@ namespace WeatherService.Tests
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
-            _serviceAggregatorMock = new Mock<IServiceAggregator<WeatherInfo, WeatherServiceParameters>>();
+            _serviceAggregatorMock = new Mock<IWeatherServiceAggregator>();
             _dateTimeProviderMock = new Mock<IDateTimeProvider>();
             _dateTimeProviderMock.Setup(p => p.UtcNow()).Returns(_todayDate);
         }
@@ -143,7 +143,7 @@ namespace WeatherService.Tests
         private void SetupServiceAggregatorMock()
         {
             _serviceAggregatorMock
-                .Setup(p => p.AggregateServicesInfo(It.IsAny<WeatherServiceParameters>()))
+                .Setup(p => p.Aggregate(It.IsAny<string>()))
                 .Returns(new WeatherInfo
                 {
                     CityName = ChelyabinskCityName,

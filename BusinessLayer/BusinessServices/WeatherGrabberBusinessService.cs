@@ -12,15 +12,15 @@ namespace BusinessLayer.BusinessServices
     {
         private readonly IRepository<WeatherInfo> _weatherInfoRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly IServiceAggregator<WeatherInfo, WeatherServiceParameters> _weatherServiceAggregator;
+        private readonly IWeatherServiceAggregator _weatherWeatherServiceAggregator;
 
         public WeatherGrabberBusinessService(IRepository<WeatherInfo> weatherInfoRepository,
                                              IDateTimeProvider dateTimeProvider,
-                                             IServiceAggregator<WeatherInfo, WeatherServiceParameters> weatherServiceAggregator)
+                                             IWeatherServiceAggregator weatherWeatherServiceAggregator)
         {
             _weatherInfoRepository = weatherInfoRepository;
             _dateTimeProvider = dateTimeProvider;
-            _weatherServiceAggregator = weatherServiceAggregator;
+            _weatherWeatherServiceAggregator = weatherWeatherServiceAggregator;
         }
 
         public IEnumerable<WeatherInfo> GrabWeatherInfos(List<string> cityNames)
@@ -29,11 +29,10 @@ namespace BusinessLayer.BusinessServices
             foreach (var cityName in cityNames)
             {
                 string city = cityName;
-                var weatherServiceParameters = new WeatherServiceParameters(cityName);
                 var weatherInfo = _weatherInfoRepository.Get(p => p.CityName == city);
                 if ((weatherInfo == null) || (_dateTimeProvider.UtcNow() - weatherInfo.LastUpdated) > TimeSpan.FromHours(4))
                 {
-                    var grabbedWeatherInfo = _weatherServiceAggregator.AggregateServicesInfo(weatherServiceParameters);
+                    var grabbedWeatherInfo = _weatherWeatherServiceAggregator.Aggregate(city);
                     if (weatherInfo != null)
                     {
                         grabbedWeatherInfo.Id = weatherInfo.Id;

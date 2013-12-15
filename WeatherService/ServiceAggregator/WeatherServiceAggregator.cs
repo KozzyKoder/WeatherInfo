@@ -10,7 +10,7 @@ using WeatherService.Services;
 
 namespace WeatherService.ServiceAggregator
 {
-    public class WeatherServiceAggregator : IServiceAggregator<WeatherInfo, WeatherServiceParameters>
+    public class WeatherServiceAggregator : IWeatherServiceAggregator
     {
         private readonly IEnumerable<IWeatherService> _weatherServices;
         protected static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -20,14 +20,14 @@ namespace WeatherService.ServiceAggregator
             _weatherServices = weatherServices;
         }
 
-        public WeatherInfo AggregateServicesInfo(WeatherServiceParameters parameters)
+        public WeatherInfo Aggregate(string cityName)
         {
             var weatherInfo = new WeatherInfo();
             foreach (IWeatherService service in _weatherServices)
             {
                 try
                 {
-                    service.GetWeatherInfo(parameters.CityName, weatherInfo);
+                    service.GetWeatherInfo(cityName, weatherInfo);
                 }
                 catch (IOException e)
                 {
@@ -39,7 +39,7 @@ namespace WeatherService.ServiceAggregator
                 }
             }
 
-            weatherInfo.CityName = parameters.CityName;
+            weatherInfo.CityName = cityName;
             weatherInfo.LastUpdated = DateTime.UtcNow;
 
             return weatherInfo;

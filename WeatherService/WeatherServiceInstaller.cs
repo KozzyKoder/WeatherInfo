@@ -13,7 +13,7 @@ namespace WeatherService
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For(typeof(IServiceAggregator<WeatherInfo, WeatherServiceParameters>))
+            container.Register(Component.For(typeof(IWeatherServiceAggregator))
                                         .ImplementedBy<WeatherServiceAggregator>()
                                         .LifestyleSingleton());
 
