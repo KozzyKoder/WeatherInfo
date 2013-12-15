@@ -8,7 +8,6 @@ using log4net;
 using RestSharp;
 using WeatherService.ServiceModelMappers;
 using WeatherService.ServiceModels;
-using WeatherService.ServiceParameters;
 
 namespace WeatherService.Services
 {

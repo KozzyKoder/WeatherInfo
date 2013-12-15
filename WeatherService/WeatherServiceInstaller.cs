@@ -4,7 +4,6 @@ using Castle.Windsor;
 using DataAccess.Entities;
 using WeatherService.ServiceAggregator;
 using WeatherService.ServiceModelMappers;
-using WeatherService.ServiceParameters;
 using WeatherService.Services;
 
 namespace WeatherService

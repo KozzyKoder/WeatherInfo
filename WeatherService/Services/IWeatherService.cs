@@ -1,5 +1,4 @@
 ﻿using DataAccess.Entities;
-using WeatherService.ServiceParameters;
 
 namespace WeatherService.Services
 {

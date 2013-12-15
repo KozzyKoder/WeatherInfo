@@ -5,7 +5,6 @@ using System.Reflection;
 using Common;
 using DataAccess.Entities;
 using log4net;
-using WeatherService.ServiceParameters;
 using WeatherService.Services;
 
 namespace WeatherService.ServiceAggregator
